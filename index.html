@@ -1,0 +1,2023 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#07070F">
+    <meta name="description" content="ArenaQuizHaiti - Compete · Learn · Rise - Quiz compétitif en temps réel format Coupe du Monde FIFA">
+    <title>ArenaQuizHaiti | Compete · Learn · Rise</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22ArenaQuizHaiti%22%2C%22short_name%22%3A%22ArenaQuiz%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%2307070F%22%2C%22theme_color%22%3A%22%23003F8A%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3Ccircle%20cx%3D'50'%20cy%3D'50'%20r%3D'45'%20fill%3D'%23003F8A'%2F%3E%3Cpath%20d%3D'M30%2C70%20L50%2C20%20L70%2C70%20Z'%20fill%3D'%23FFD700'%2F%3E%3Ccircle%20cx%3D'50'%20cy%3D'25'%20r%3D'8'%20fill%3D'%23FFD700'%2F%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22100x100%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDK CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js">
+    </script>
+
+    <style>
+        :root {
+            --blue: #003F8A;
+            --red: #D21034;
+            --gold: #FFD700;
+            --bg: #07070F;
+            --bg-card: #0d0d1a;
+            --bg-card2: #111122;
+            --text: #e0e0e0;
+            --text-muted: #999;
+            --green: #00c853;
+            --orange: #ff9800;
+            --border: #1a1a2e;
+            --radius: 14px;
+            --radius-sm: 8px;
+            --font-title: 'Bebas Neue', cursive;
+            --font-label: 'Rajdhani', sans-serif;
+            --font-body: 'Exo 2', sans-serif;
+            --shadow-gold: 0 0 30px rgba(255, 215, 0, 0.3);
+            --shadow-blue: 0 0 25px rgba(0, 63, 138, 0.4);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.5;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--blue);
+            border-radius: 10px;
+        }
+
+        /* ========== PARTICULES D'ARRIÈRE-PLAN ========== */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        /* ========== CONTENEUR PRINCIPAL ========== */
+        #app {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 16px 90px;
+            min-height: 100vh;
+        }
+
+        /* ========== HEADER ========== */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), #002255);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 2px solid var(--gold);
+            box-shadow: var(--shadow-gold);
+            flex-shrink: 0;
+        }
+        .logo-text {
+            font-family: var(--font-title);
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: #fff;
+            white-space: nowrap;
+        }
+        .logo-text span {
+            color: var(--gold);
+        }
+        .tagline {
+            font-family: var(--font-label);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-label);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            text-transform: uppercase;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-primary {
+            background: var(--gold);
+            color: #000;
+            box-shadow: var(--shadow-gold);
+        }
+        .btn-primary:hover {
+            transform: scale(1.04);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--blue);
+            color: #fff;
+        }
+        .btn-outline:hover {
+            background: var(--blue);
+        }
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            border-radius: 20px;
+        }
+        .btn-danger {
+            background: var(--red);
+            color: #fff;
+            border: none;
+        }
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid transparent;
+        }
+        .btn-ghost:hover {
+            color: #fff;
+            border-color: var(--border);
+        }
+
+        /* ========== NAVIGATION INFÉRIEURE ========== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .bottom-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: var(--transition);
+            font-family: var(--font-label);
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 10px;
+            position: relative;
+            text-decoration: none;
+            border: none;
+            background: none;
+        }
+        .bottom-nav .nav-item.active {
+            color: var(--gold);
+        }
+        .bottom-nav .nav-item.active::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            width: 20px;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 0 0 4px 4px;
+        }
+        .bottom-nav .nav-icon {
+            font-size: 1.3rem;
+        }
+
+        /* ========== PAGES ========== */
+        .page {
+            display: none;
+            animation: fadeSlideIn 0.4s ease;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes pulseGold {
+            0%,
+            100% {
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(255, 215, 0, 0.7);
+            }
+        }
+        @keyframes countPulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.12);
+                color: var(--red);
+            }
+        }
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* ========== CARTES ========== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: var(--transition);
+        }
+        .card:hover {
+            border-color: #2a2a45;
+        }
+        .card-gold {
+            border-color: var(--gold);
+            box-shadow: var(--shadow-gold);
+        }
+        .card-header {
+            font-family: var(--font-title);
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title {
+            font-family: var(--font-title);
+            font-size: 1.6rem;
+            letter-spacing: 3px;
+            text-align: center;
+            margin: 20px 0;
+            color: #fff;
+        }
+        .section-title span {
+            color: var(--gold);
+        }
+
+        /* ========== HERO ========== */
+        .hero-section {
+            text-align: center;
+            padding: 30px 0;
+        }
+        .hero-logo {
+            font-size: 5rem;
+            animation: pulseGold 2s infinite;
+            display: inline-block;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            line-height: 120px;
+            background: var(--bg-card2);
+            border: 3px solid var(--gold);
+            margin-bottom: 16px;
+        }
+        .hero-title {
+            font-family: var(--font-title);
+            font-size: 3rem;
+            letter-spacing: 5px;
+            color: #fff;
+            line-height: 1;
+        }
+        .hero-title .gold {
+            color: var(--gold);
+        }
+        .hero-subtitle {
+            font-family: var(--font-label);
+            font-size: 1rem;
+            letter-spacing: 4px;
+            color: var(--text-muted);
+            margin: 8px 0 20px;
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .hero-stat {
+            text-align: center;
+        }
+        .hero-stat-val {
+            font-family: var(--font-title);
+            font-size: 2.5rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+        }
+        .hero-stat-label {
+            font-family: var(--font-label);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* ========== BRACKET ========== */
+        .bracket-container {
+            overflow-x: auto;
+            padding: 20px 0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+        .bracket-tree {
+            display: flex;
+            gap: 30px;
+            min-width: 700px;
+            align-items: stretch;
+            padding: 10px;
+        }
+        .bracket-round {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            gap: 8px;
+            min-width: 160px;
+        }
+        .bracket-round-label {
+            font-family: var(--font-title);
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-align: center;
+            color: var(--gold);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .bracket-match {
+            background: var(--bg-card2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            min-height: 70px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            white-space: nowrap;
+        }
+        .bracket-match.live {
+            border-color: var(--gold);
+            animation: pulseGold 1.5s infinite;
+            background: #1a1a0a;
+        }
+        .bracket-match.done {
+            border-color: #333;
+            opacity: 0.7;
+        }
+        .bracket-match .player-slot {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-label);
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 3px 6px;
+            border-radius: 4px;
+        }
+        .bracket-match .player-slot.winner {
+            color: var(--green);
+            font-weight: 700;
+        }
+        .bracket-match .player-slot.loser {
+            color: #666;
+            text-decoration: line-through;
+        }
+        .bracket-match .slot-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--blue);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            overflow: hidden;
+        }
+        .bracket-match .slot-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .bracket-match .slot-score {
+            margin-left: auto;
+            font-weight: 700;
+            font-family: var(--font-title);
+            font-size: 0.9rem;
+            color: var(--gold);
+        }
+        .bracket-connector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 30px;
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+
+        /* ========== QUIZ MATCH ========== */
+        .match-arena {
+            text-align: center;
+        }
+        .match-vs {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+        .match-player-card {
+            background: var(--bg-card2);
+            border-radius: var(--radius);
+            padding: 16px;
+            text-align: center;
+            min-width: 120px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        .match-player-card .mp-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--blue);
+            margin: 0 auto 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            overflow: hidden;
+        }
+        .match-player-card .mp-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .match-player-card .mp-name {
+            font-family: var(--font-title);
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+        .match-player-card .mp-score {
+            font-family: var(--font-title);
+            font-size: 2.5rem;
+            color: var(--gold);
+            transition: var(--transition);
+        }
+        .match-vs-divider {
+            font-family: var(--font-title);
+            font-size: 2rem;
+            color: var(--red);
+            letter-spacing: 3px;
+        }
+        .timer-display {
+            font-family: var(--font-title);
+            font-size: 4rem;
+            letter-spacing: 4px;
+            color: #fff;
+            transition: color 0.3s;
+        }
+        .timer-display.urgent {
+            color: var(--red);
+            animation: countPulse 0.5s infinite;
+        }
+        .question-text {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin: 12px 0;
+            line-height: 1.4;
+            padding: 10px;
+            background: var(--bg-card2);
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--gold);
+        }
+        .choices-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 12px 0;
+        }
+        @media (max-width: 500px) {
+            .choices-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .choice-btn {
+            background: var(--bg-card2);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            cursor: pointer;
+            font-family: var(--font-label);
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            transition: var(--transition);
+            text-align: left;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        .choice-btn:hover {
+            border-color: var(--blue);
+            background: #1a1a35;
+        }
+        .choice-btn.correct {
+            border-color: var(--green) !important;
+            background: #003300 !important;
+            animation: pulseGold 0.6s ease;
+        }
+        .choice-btn.wrong {
+            border-color: var(--red) !important;
+            background: #330000 !important;
+            animation: shake 0.5s ease;
+        }
+        .choice-btn:disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-8px);
+            }
+            75% {
+                transform: translateX(8px);
+            }
+        }
+        .feedback-toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-family: var(--font-label);
+            font-weight: 700;
+            letter-spacing: 2px;
+            z-index: 200;
+            animation: fadeSlideIn 0.3s ease;
+            pointer-events: none;
+            text-transform: uppercase;
+        }
+        .feedback-toast.success {
+            background: var(--green);
+            color: #000;
+        }
+        .feedback-toast.error {
+            background: var(--red);
+            color: #fff;
+        }
+        .feedback-toast.info {
+            background: var(--blue);
+            color: #fff;
+        }
+
+        /* ========== LEADERBOARD ========== */
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-label);
+        }
+        .leaderboard-table th,
+        .leaderboard-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+        .leaderboard-table th {
+            color: var(--gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            background: var(--bg-card2);
+            position: sticky;
+            top: 0;
+        }
+        .leaderboard-table .rank-col {
+            width: 50px;
+            text-align: center;
+            font-weight: 700;
+            font-family: var(--font-title);
+            font-size: 1.1rem;
+        }
+        .rank-badge {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            font-weight: 700;
+        }
+        .rank-1 {
+            background: var(--gold);
+            color: #000;
+            font-size: 1.2rem;
+        }
+        .rank-2 {
+            background: #c0c0c0;
+            color: #000;
+        }
+        .rank-3 {
+            background: #cd7f32;
+            color: #000;
+        }
+        .podium-row {
+            background: var(--bg-card2);
+        }
+
+        /* ========== BADGES ========== */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-family: var(--font-label);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin: 2px;
+        }
+        .badge-gold {
+            background: var(--gold);
+            color: #000;
+        }
+        .badge-blue {
+            background: var(--blue);
+            color: #fff;
+        }
+        .badge-red {
+            background: var(--red);
+            color: #fff;
+        }
+        .badge-green {
+            background: var(--green);
+            color: #000;
+        }
+
+        /* ========== MODAL ========== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 150;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeSlideIn 0.2s ease;
+        }
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            max-width: 450px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal h2 {
+            font-family: var(--font-title);
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        /* ========== FORMS ========== */
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 25px;
+            border: 2px solid var(--border);
+            background: var(--bg-card2);
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            transition: var(--transition);
+            outline: none;
+        }
+        .input-field:focus {
+            border-color: var(--blue);
+            box-shadow: var(--shadow-blue);
+        }
+
+        /* ========== CONFETTI ========== */
+        .confetti-piece {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            z-index: 300;
+            pointer-events: none;
+            animation: confettiFall 3s ease-out forwards;
+            border-radius: 2px;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 600px) {
+            .hero-title {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+            .hero-logo {
+                width: 80px;
+                height: 80px;
+                line-height: 80px;
+                font-size: 3rem;
+            }
+            .bracket-tree {
+                gap: 12px;
+                min-width: 500px;
+            }
+            .bracket-round {
+                min-width: 110px;
+            }
+            .bracket-match {
+                padding: 6px 8px;
+                min-height: 50px;
+            }
+            .bracket-match .slot-avatar {
+                width: 22px;
+                height: 22px;
+                font-size: 10px;
+            }
+            .bracket-match .player-slot {
+                font-size: 0.65rem;
+                gap: 4px;
+            }
+            .timer-display {
+                font-size: 3rem;
+            }
+            .match-vs {
+                gap: 10px;
+            }
+            .match-player-card {
+                min-width: 90px;
+                padding: 10px;
+            }
+            .match-player-card .mp-score {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas pour particules d'arrière-plan -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Conteneur principal de l'application SPA -->
+    <div id="app">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area" onclick="navigateTo('home')">
+                <div class="logo-icon">🏆</div>
+                <div>
+                    <div class="logo-text">ARENA<span>QUIZ</span>HAITI</div>
+                    <div class="tagline">Compete · Learn · Rise</div>
+                </div>
+            </div>
+            <div class="header-actions" id="header-actions">
+                <button class="btn btn-outline btn-sm" onclick="navigateTo('auth')" id="btn-login">Connexion</button>
+                <span id="user-badge" style="display:none;font-family:var(--font-label);color:var(--gold);font-weight:600;"></span>
+            </div>
+        </header>
+
+        <!-- ========== PAGE ACCUEIL ========== -->
+        <section class="page active" id="page-home">
+            <div class="hero-section">
+                <div class="hero-logo">🏆</div>
+                <h1 class="hero-title">ARENA<span class="gold">QUIZ</span>HAITI</h1>
+                <p class="hero-subtitle">Compete · Learn · Rise</p>
+                <button class="btn btn-primary" onclick="navigateTo('tournament')">🔥 Rejoindre le Tournoi</button>
+                <div class="hero-stats">
+                    <div class="hero-stat"><div class="hero-stat-val" id="stat-players">247</div><div class="hero-stat-label">Joueurs</div></div>
+                    <div class="hero-stat"><div class="hero-stat-val" id="stat-tournaments">12</div><div class="hero-stat-label">Tournois</div></div>
+                    <div class="hero-stat"><div class="hero-stat-val" id="stat-countries">4</div><div class="hero-stat-label">Pays</div></div>
+                </div>
+            </div>
+            <!-- Prochain tournoi countdown -->
+            <div class="card card-gold" style="text-align:center;">
+                <div class="card-header">⏳ Prochain Tournoi</div>
+                <div style="font-family:var(--font-title);font-size:2rem;letter-spacing:3px;color:#fff;" id="countdown-display">
+                    23h 45m 12s
+                </div>
+                <p style="color:var(--text-muted);font-size:0.8rem;">Inscriptions ouvertes · 32 places</p>
+            </div>
+            <!-- Top 5 leaderboard preview -->
+            <div class="card">
+                <div class="card-header">🏅 Top 5 Global</div>
+                <table class="leaderboard-table">
+                    <thead><tr><th class="rank-col">#</th><th>Joueur</th><th>Score</th><th>Rang</th></tr></thead>
+                    <tbody id="top5-preview">
+                        <tr><td class="rank-col"><span class="rank-badge rank-1">1</span></td><td>🇭🇹 JeanP_QC</td><td>12,450</td><td><span class="badge badge-gold">Diamond</span></td></tr>
+                        <tr><td class="rank-col"><span class="rank-badge rank-2">2</span></td><td>🇭🇹 Marie_Biz</td><td>10,820</td><td><span class="badge badge-blue">Gold</span></td></tr>
+                        <tr><td class="rank-col"><span class="rank-badge rank-3">3</span></td><td>🇭🇹 David_Eng</td><td>9,650</td><td><span class="badge badge-blue">Gold</span></td></tr>
+                        <tr><td class="rank-col">4</td><td>🇭🇹 Sophie_H</td><td>8,900</td><td><span class="badge badge-red">Silver</span></td></tr>
+                        <tr><td class="rank-col">5</td><td>🇭🇹 Marc_CEO</td><td>7,750</td><td><span class="badge badge-red">Silver</span></td></tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-outline btn-sm" style="margin-top:10px;" onclick="navigateTo('leaderboard')">Voir tout le classement →</button>
+            </div>
+        </section>
+
+        <!-- ========== PAGE AUTH ========== -->
+        <section class="page" id="page-auth">
+            <div class="card card-gold" style="max-width:420px;margin:40px auto;text-align:center;">
+                <div class="card-header">🔐 Connexion</div>
+                <p style="margin-bottom:16px;color:var(--text-muted);">Rejoins l'arène et prouve ta valeur !</p>
+                <button class="btn btn-primary" style="width:100%;margin-bottom:8px;" onclick="loginWithGoogle()">
+                    🟡 Connexion avec Google
+                </button>
+                <div style="color:var(--text-muted);margin:12px 0;">— ou —</div>
+                <input type="email" class="input-field" placeholder="Email" id="auth-email">
+                <input type="password" class="input-field" placeholder="Mot de passe" id="auth-password">
+                <button class="btn btn-outline" style="width:100%;" onclick="loginWithEmail()">Se connecter</button>
+                <p style="margin-top:10px;font-size:0.75rem;color:var(--text-muted);cursor:pointer;" onclick="alert('Inscription simulée - Firebase Auth requis')">Pas de compte ? S'inscrire</p>
+            </div>
+        </section>
+
+        <!-- ========== PAGE DASHBOARD ========== -->
+        <section class="page" id="page-dashboard">
+            <div class="card">
+                <div class="card-header">👋 Salut, <span id="dash-username">Joueur</span> !</div>
+                <p style="color:var(--text-muted);">Prêt pour ton prochain défi ?</p>
+            </div>
+            <div class="card card-gold" style="text-align:center;">
+                <div class="card-header">🔥 Tournoi Actif</div>
+                <p>Coupe du Monde Business English · Round Huitièmes</p>
+                <button class="btn btn-primary btn-sm" onclick="navigateTo('tournament')">Voir le bracket</button>
+            </div>
+            <div class="card">
+                <div class="card-header">📊 Mes Stats</div>
+                <div style="display:flex;gap:15px;flex-wrap:wrap;justify-content:space-around;text-align:center;">
+                    <div><div style="font-family:var(--font-title);font-size:1.8rem;color:var(--gold);">42</div><div style="font-size:0.7rem;color:var(--text-muted);">Matchs</div></div>
+                    <div><div style="font-family:var(--font-title);font-size:1.8rem;color:var(--gold);">28</div><div style="font-size:0.7rem;color:var(--text-muted);">Victoires</div></div>
+                    <div><div style="font-family:var(--font-title);font-size:1.8rem;color:var(--gold);">8.2</div><div style="font-size:0.7rem;color:var(--text-muted);">Score Moy.</div></div>
+                    <div><div style="font-family:var(--font-title);font-size:1.8rem;color:var(--gold);">4.1s</div><div style="font-size:0.7rem;color:var(--text-muted);">Vitesse</div></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">🏅 Badges</div>
+                <span class="badge badge-gold">🏆 Champion</span>
+                <span class="badge badge-green">⚡ Speed Demon</span>
+                <span class="badge badge-blue">🌟 First Win</span>
+            </div>
+        </section>
+<!-- ========== PAGE PROFIL ========== -->
+        <section class="page" id="page-profile">
+            <div class="card" style="text-align:center;">
+                <div style="width:100px;height:100px;border-radius:50%;background:var(--blue);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:40px;overflow:hidden;cursor:pointer;border:3px solid var(--gold);" id="profile-avatar-preview" onclick="triggerAvatarUpload()">
+                    👤
+                </div>
+                <input type="file" id="avatar-file-input" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
+                <h3 style="font-family:var(--font-title);letter-spacing:2px;" id="profile-pseudo">JeanP_QC</h3>
+                <span class="badge badge-gold">Diamond</span>
+                <p style="color:var(--text-muted);font-size:0.8rem;">Clique sur l'avatar pour changer</p>
+                <button class="btn btn-outline btn-sm" onclick="editPseudo()">✏️ Modifier le pseudo</button>
+            </div>
+            <div class="card">
+                <div class="card-header">📜 Historique Tournois</div>
+                <div style="color:var(--text-muted);font-size:0.8rem;">
+                    <p>🏆 Coupe Janvier 2026 — <span style="color:var(--green);">1ère place</span></p>
+                    <p>🔥 Coupe Décembre 2025 — <span style="color:var(--gold);">3ème place</span></p>
+                    <p>⚔️ Coupe Novembre 2025 — Quart de finale</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PAGE TOURNOI (BRACKET FIFA) ========== -->
+        <section class="page" id="page-tournament">
+            <div class="section-title">🏆 <span>BRACKET</span> TOURNOI</div>
+            <p style="text-align:center;color:var(--text-muted);margin-bottom:8px;">Coupe du Monde Business English · 32 Joueurs</p>
+            <div style="text-align:center;margin-bottom:16px;">
+                <span style="color:var(--gold);">🥇 1000 HTG</span> ·
+                <span style="color:#c0c0c0;">🥈 500 HTG</span> ·
+                <span style="color:#cd7f32;">🥉 250 HTG</span>
+            </div>
+            <button class="btn btn-primary" style="display:block;margin:0 auto 16px;" onclick="registerTournament()">📋 S'INSCRIRE AU TOURNOI</button>
+            <div class="bracket-container" id="bracket-container">
+                <!-- Le bracket est généré dynamiquement par JS -->
+            </div>
+        </section>
+
+        <!-- ========== PAGE MATCH (QUIZ EN DIRECT) ========== -->
+        <section class="page" id="page-match">
+            <div class="match-arena">
+                <div class="section-title">⚔️ <span>DUEL</span> EN DIRECT</div>
+                <div class="match-vs">
+                    <div class="match-player-card" id="mp-player1">
+                        <div class="mp-avatar">👤</div>
+                        <div class="mp-name">Vous</div>
+                        <div class="mp-score" id="score-p1">0</div>
+                    </div>
+                    <div class="match-vs-divider">VS</div>
+                    <div class="match-player-card" id="mp-player2">
+                        <div class="mp-avatar">🤖</div>
+                        <div class="mp-name">Adversaire</div>
+                        <div class="mp-score" id="score-p2">0</div>
+                    </div>
+                </div>
+                <div style="font-size:0.8rem;color:var(--text-muted);" id="question-counter">Question 1/10</div>
+                <div class="timer-display" id="match-timer">15</div>
+                <div class="question-text" id="question-text">Chargement de la question...</div>
+                <div class="choices-grid" id="choices-container">
+                    <button class="choice-btn">A. Choix A</button>
+                    <button class="choice-btn">B. Choix B</button>
+                    <button class="choice-btn">C. Choix C</button>
+                    <button class="choice-btn">D. Choix D</button>
+                </div>
+                <div id="match-feedback" style="min-height:30px;font-weight:600;letter-spacing:1px;"></div>
+                <button class="btn btn-primary" id="btn-ready-match" onclick="startMatchCountdown()">⚡ READY</button>
+                <button class="btn btn-outline btn-sm" id="btn-leave-match" style="display:none;" onclick="leaveMatch()">Quitter le match</button>
+            </div>
+        </section>
+
+        <!-- ========== PAGE LEADERBOARD ========== -->
+        <section class="page" id="page-leaderboard">
+            <div class="section-title">📊 <span>LEADERBOARD</span></div>
+            <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;flex-wrap:wrap;">
+                <button class="btn btn-outline btn-sm filter-btn active" data-filter="all">All-Time</button>
+                <button class="btn btn-ghost btn-sm filter-btn" data-filter="week">Cette Semaine</button>
+                <button class="btn btn-ghost btn-sm filter-btn" data-filter="month">Ce Mois</button>
+            </div>
+            <div class="card" style="overflow-x:auto;">
+                <table class="leaderboard-table" id="full-leaderboard">
+                    <thead><tr><th class="rank-col">#</th><th>Joueur</th><th>Score</th><th>Matchs</th><th>Rang</th></tr></thead>
+                    <tbody id="leaderboard-body">
+                        <!-- Rempli dynamiquement -->
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn btn-ghost btn-sm" style="display:block;margin:0 auto;" id="load-more-lb">Charger plus...</button>
+        </section>
+
+        <!-- ========== PAGE ADMIN ========== -->
+        <section class="page" id="page-admin">
+            <div class="section-title">🛡️ <span>ADMIN</span> PANEL</div>
+            <div class="card">
+                <div class="card-header">Créer un Tournoi</div>
+                <input type="text" class="input-field" placeholder="Nom du tournoi" id="admin-tournament-name">
+                <input type="number" class="input-field" placeholder="Nombre max de joueurs (32)" id="admin-max-players" value="32">
+                <button class="btn btn-primary btn-sm" onclick="createTournament()">Créer</button>
+            </div>
+            <div class="card">
+                <div class="card-header">Gérer les Questions</div>
+                <textarea class="input-field" rows="3" placeholder="Question..." id="admin-question"></textarea>
+                <input type="text" class="input-field" placeholder="Choix A" id="admin-optA">
+                <input type="text" class="input-field" placeholder="Choix B" id="admin-optB">
+                <input type="text" class="input-field" placeholder="Choix C" id="admin-optC">
+                <input type="text" class="input-field" placeholder="Choix D" id="admin-optD">
+                <select class="input-field" id="admin-correct">
+                    <option value="0">Réponse correcte : A</option>
+                    <option value="1">Réponse correcte : B</option>
+                    <option value="2">Réponse correcte : C</option>
+                    <option value="3">Réponse correcte : D</option>
+                </select>
+                <select class="input-field" id="admin-category">
+                    <option value="business_english">Business English</option>
+                    <option value="general_english">General English</option>
+                    <option value="haiti_culture">Haiti Culture</option>
+                    <option value="business_iq">Business IQ</option>
+                </select>
+                <button class="btn btn-primary btn-sm" onclick="addQuestion()">Ajouter Question</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Navigation inférieure -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-page="home" onclick="navigateTo('home')">
+            <span class="nav-icon">🏠</span> Accueil
+        </button>
+        <button class="nav-item" data-page="tournament" onclick="navigateTo('tournament')">
+            <span class="nav-icon">🏆</span> Tournoi
+        </button>
+        <button class="nav-item" data-page="match" onclick="navigateTo('match')">
+            <span class="nav-icon">⚔️</span> Match
+        </button>
+        <button class="nav-item" data-page="leaderboard" onclick="navigateTo('leaderboard')">
+            <span class="nav-icon">📊</span> Classement
+        </button>
+        <button class="nav-item" data-page="profile" onclick="navigateTo('profile')">
+            <span class="nav-icon">👤</span> Profil
+        </button>
+    </nav>
+
+    <!-- Toast container -->
+    <div id="toast-container"></div>
+
+    <script>
+        // ============================================================
+        // 🏆 ARENA QUIZ HAITI — Application Complète SPA
+        // Stack : HTML5 + CSS3 + JavaScript Vanilla + Firebase CDN
+        // Commentaires en français
+        // ============================================================
+
+        // --- Configuration Firebase (À REMPLACER par vos propres credentials) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-PLACEHOLDER-KEY",
+            authDomain: "arenaquizhaiti.firebaseapp.com",
+            projectId: "arenaquizhaiti",
+            storageBucket: "arenaquizhaiti.appspot.com",
+            messagingSenderId: "000000000000",
+            appId: "1:000000000000:web:abcdefgh"
+        };
+
+        // Initialisation Firebase (mode compat)
+        let firebaseInitialized = false;
+        let auth, db;
+        try {
+            firebase.initializeApp(firebaseConfig);
+            auth = firebase.auth();
+            db = firebase.firestore();
+            // Activer le mode hors-ligne pour économiser les lectures
+            db.enablePersistence({ synchronizeTabs: true }).catch(() => {});
+            firebaseInitialized = true;
+            console.log('✅ Firebase initialisé');
+        } catch (e) {
+            console.warn('⚠️ Firebase non initialisé — mode démo actif. Configurez vos credentials.');
+            console.warn('Erreur:', e.message);
+        }
+
+        // --- État global de l'application ---
+        const APP_STATE = {
+            currentPage: 'home',
+            currentUser: null, // {uid, pseudo, avatar, stats, badges, rank}
+            isLoggedIn: false,
+            tournamentPlayers: [], // Joueurs inscrits au tournoi actif
+            bracketData: null, // Données du bracket
+            matchInProgress: false,
+            matchQuestions: [],
+            currentQuestionIndex: 0,
+            playerScore: 0,
+            opponentScore: 0,
+            matchTimer: 15,
+            matchTimerInterval: null,
+            questionAnswered: false,
+            activeListeners: [], // Pour cleanup onSnapshot
+        };
+
+        // --- Questions de démonstration (cache local) ---
+        const DEMO_QUESTIONS = [
+            { question: 'What does "ROI" stand for in business?', options: ['Return On Investment',
+                    'Rate Of Interest', 'Revenue Over Income', 'Return Of Inventory'
+                ], correct: 0, category: 'business_english' },
+            { question: 'Which sentence is grammatically correct?', options: ['He go to school',
+                    'He goes to school', 'He going to school', 'He gone to school'
+                ], correct: 1, category: 'general_english' },
+            { question: 'Quelle est la capitale d\'Haïti?', options: ['Cap-Haïtien', 'Port-au-Prince',
+                    'Jacmel', 'Les Cayes'
+                ], correct: 1, category: 'haiti_culture' },
+            { question: 'What is a "startup"?', options: ['A large corporation',
+                    'A newly established business', 'A government agency', 'A type of investment'], correct: 1,
+                category: 'business_iq' },
+            { question: '"Synergy" in business means...', options: ['Working against each other',
+                    'Combined effort greater than individual parts', 'Reducing staff',
+                    'Outsourcing operations'
+                ], correct: 1, category: 'business_english' },
+            { question: 'Choose the correct word: "They ___ finished the project."', options: ['has', 'have',
+                    'is', 'was'], correct: 1, category: 'general_english' },
+            { question: 'Qui a écrit "Gouverneurs de la Rosée"?', options: ['Dany Laferrière',
+                    'Jacques Roumain', 'Frankétienne', 'René Depestre'], correct: 1, category: 'haiti_culture' },
+            { question: 'What does "KPI" measure?', options: ['Kitchen Performance Index',
+                    'Key Performance Indicator', 'Knowledge Processing Interface',
+                'Kinetic Profit Investment'], correct: 1, category: 'business_iq' },
+            { question: 'A "merger" is when two companies...', options: ['Go bankrupt', 'Combine into one',
+                    'Sell all assets', 'Hire new CEOs'], correct: 1, category: 'business_english' },
+            { question: '"She ___ to the gym every morning."', options: ['go', 'goes', 'going', 'gone'],
+                correct: 1, category: 'general_english' },
+            { question: 'Haïti a obtenu son indépendance en...', options: ['1791', '1804', '1825', '1789'],
+                correct: 1, category: 'haiti_culture' },
+            { question: 'What is "cash flow"?', options: ['Money spent on luxury',
+                    'Movement of money in/out of business', 'Stock market trading',
+                'Employee salary payments'], correct: 1, category: 'business_iq' },
+            { question: '"Leverage" in finance refers to...', options: ['Borrowing money to invest',
+                    'Saving all profits', 'Avoiding all risks', 'Paying taxes early'], correct: 0,
+                category: 'business_english' },
+            { question: 'Which is correct? "There ___ many people."', options: ['is', 'are', 'am', 'be'],
+                correct: 1, category: 'general_english' },
+            { question: 'Le drapeau haïtien actuel date de...', options: ['1804', '1986', '1806', '1843'],
+                correct: 1, category: 'haiti_culture' },
+            { question: 'A "dividend" is...', options: ['A type of loan',
+                    'Profit distributed to shareholders', 'Company expense', 'Tax payment'], correct: 1,
+                category: 'business_iq' },
+            { question: '"To break even" means...', options: ['To lose money',
+                    'To have revenue equal costs', 'To double profits', 'To shut down'], correct: 1,
+                category: 'business_english' },
+            { question: '"I ___ seen that movie before."', options: ['has', 'have', 'am', 'was'], correct: 1,
+                category: 'general_english' },
+            { question: 'Quel plat haïtien est à base de maïs?', options: ['Griot', 'Mayi moulen', 'Tassot',
+                    'Diri ak djon djon'], correct: 1, category: 'haiti_culture' },
+            { question: 'What is "equity" in business?', options: ['Debt obligation',
+                    'Ownership in a company', 'Monthly salary', 'Office equipment'], correct: 1,
+                category: 'business_iq' },
+        ];
+
+        // --- Données simulées pour le bracket ---
+        function generateBracketData() {
+            const players = [
+                { pseudo: 'JeanP_QC', avatar: '👤', seed: 1 },
+                { pseudo: 'Marie_Biz', avatar: '👩‍💼', seed: 2 },
+                { pseudo: 'David_Eng', avatar: '👨‍🎓', seed: 3 },
+                { pseudo: 'Sophie_H', avatar: '👩‍💻', seed: 4 },
+                { pseudo: 'Marc_CEO', avatar: '👨‍💼', seed: 5 },
+                { pseudo: 'Laura_K', avatar: '👩‍🏫', seed: 6 },
+                { pseudo: 'Pierre_T', avatar: '👨‍🔧', seed: 7 },
+                { pseudo: 'Nadia_M', avatar: '👩‍🎨', seed: 8 },
+                { pseudo: 'Carlos_R', avatar: '👨‍🍳', seed: 9 },
+                { pseudo: 'Esther_L', avatar: '👩‍⚕️', seed: 10 },
+                { pseudo: 'Frantz_D', avatar: '👨‍🏫', seed: 11 },
+                { pseudo: 'Gina_P', avatar: '👩‍🔬', seed: 12 },
+                { pseudo: 'Herve_B', avatar: '👨‍🎤', seed: 13 },
+                { pseudo: 'Isabelle_C', avatar: '👩‍✈️', seed: 14 },
+                { pseudo: 'Jacques_V', avatar: '👨‍🚀', seed: 15 },
+                { pseudo: 'Karine_S', avatar: '👩‍🚒', seed: 16 },
+            ];
+            // Simuler 32 joueurs en dupliquant
+            const all32 = [];
+            for (let i = 0; i < 32; i++) {
+                const base = players[i % players.length];
+                all32.push({ ...base, pseudo: base.pseudo + '_' + (i + 1), seed: i + 1 });
+            }
+            // Construire les rounds
+            const bracket = {
+                rounds: [
+                    { name: 'Huitièmes', matches: [] },
+                    { name: 'Quarts', matches: [] },
+                    { name: 'Demi-finales', matches: [] },
+                    { name: 'Petite Finale', matches: [] },
+                    { name: 'Grande Finale', matches: [] },
+                ],
+            };
+            // Huitièmes : 16 matchs
+            for (let i = 0; i < 16; i++) {
+                const p1 = all32[i * 2];
+                const p2 = all32[i * 2 + 1];
+                const winnerIdx = Math.random() > 0.5 ? 0 : 1;
+                bracket.rounds[0].matches.push({
+                    player1: { ...p1, score: winnerIdx === 0 ? Math.floor(Math.random() * 30) + 40 : Math.floor(Math
+                            .random() * 30) + 20 },
+                    player2: { ...p2, score: winnerIdx === 1 ? Math.floor(Math.random() * 30) + 40 : Math.floor(Math
+                            .random() * 30) + 20 },
+                    winner: winnerIdx,
+                    status: 'done',
+                });
+            }
+            // Quarts : 8 matchs (simulés)
+            for (let i = 0; i < 8; i++) {
+                const prevM = bracket.rounds[0].matches[i * 2];
+                const prevM2 = bracket.rounds[0].matches[i * 2 + 1];
+                const w1 = prevM.winner === 0 ? prevM.player1 : prevM.player2;
+                const w2 = prevM2.winner === 0 ? prevM2.player1 : prevM2.player2;
+                const winnerIdx = i < 6 ? (Math.random() > 0.5 ? 0 : 1) : null; // 2 matchs encore "live"
+                bracket.rounds[1].matches.push({
+                    player1: { ...w1, score: winnerIdx === 0 ? Math.floor(Math.random() * 25) + 30 : (winnerIdx ===
+                            1 ? Math.floor(Math.random() * 20) + 15 : 0) },
+                    player2: { ...w2, score: winnerIdx === 1 ? Math.floor(Math.random() * 25) + 30 : (winnerIdx ===
+                            0 ? Math.floor(Math.random() * 20) + 15 : 0) },
+                    winner: winnerIdx,
+                    status: i >= 6 ? 'live' : 'done',
+                });
+            }
+            // Demi-finales : 4 matchs
+            for (let i = 0; i < 4; i++) {
+                bracket.rounds[2].matches.push({
+                    player1: { pseudo: 'TBD', avatar: '❓', seed: '-', score: 0 },
+                    player2: { pseudo: 'TBD', avatar: '❓', seed: '-', score: 0 },
+                    winner: null,
+                    status: 'pending',
+                });
+            }
+            // Petite finale
+            bracket.rounds[3].matches.push({
+                player1: { pseudo: 'TBD', avatar: '❓', seed: '-', score: 0 },
+                player2: { pseudo: 'TBD', avatar: '❓', seed: '-', score: 0 },
+                winner: null,
+                status: 'pending',
+            });
+            // Grande finale
+            bracket.rounds[4].matches.push({
+                player1: { pseudo: 'TBD', avatar: '❓', seed: '-', score: 0 },
+                player2: { pseudo: 'TBD', avatar: '❓', seed: '-', score: 0 },
+                winner: null,
+                status: 'pending',
+            });
+            APP_STATE.bracketData = bracket;
+            return bracket;
+        }
+
+        // --- Navigation SPA ---
+        function navigateTo(pageName) {
+            // Désactiver tous les listeners actifs (optimisation)
+            detachAllListeners();
+
+            // Cacher toutes les pages
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            // Afficher la page cible
+            const targetPage = document.getElementById('page-' + pageName);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                APP_STATE.currentPage = pageName;
+            }
+            // Mettre à jour la navigation inférieure
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(n => {
+                n.classList.toggle('active', n.dataset.page === pageName);
+            });
+            // Scroll top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Actions spécifiques à la page
+            if (pageName === 'tournament') {
+                renderBracket();
+            }
+            if (pageName === 'leaderboard') {
+                renderFullLeaderboard('all');
+            }
+            if (pageName === 'dashboard' && APP_STATE.isLoggedIn) {
+                updateDashboard();
+            }
+
+            console.log('📍 Navigation vers:', pageName);
+        }
+
+        // --- Nettoyage des listeners Firestore ---
+        function detachAllListeners() {
+            APP_STATE.activeListeners.forEach(unsub => {
+                if (typeof unsub === 'function') unsub();
+            });
+            APP_STATE.activeListeners = [];
+            if (APP_STATE.matchTimerInterval) {
+                clearInterval(APP_STATE.matchTimerInterval);
+                APP_STATE.matchTimerInterval = null;
+            }
+            APP_STATE.matchInProgress = false;
+        }
+
+        // --- Gestion de l'authentification ---
+        function loginWithGoogle() {
+            if (!firebaseInitialized) {
+                simulateLogin('GoogleUser_Demo');
+                return;
+            }
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider).then(result => {
+                handleAuthSuccess(result.user);
+            }).catch(err => {
+                console.error('Erreur login Google:', err);
+                showToast('Erreur de connexion Google', 'error');
+                simulateLogin('GoogleUser_Demo');
+            });
+        }
+
+        function loginWithEmail() {
+            const email = document.getElementById('auth-email').value;
+            const pass = document.getElementById('auth-password').value;
+            if (!email || !pass) {
+                showToast('Veuillez remplir tous les champs', 'error');
+                return;
+            }
+            if (!firebaseInitialized) {
+                simulateLogin(email.split('@')[0]);
+                return;
+            }
+            auth.signInWithEmailAndPassword(email, pass).then(result => {
+                handleAuthSuccess(result.user);
+            }).catch(err => {
+                console.error('Erreur login email:', err);
+                showToast('Email ou mot de passe incorrect', 'error');
+                simulateLogin(email.split('@')[0]);
+            });
+        }
+
+        function simulateLogin(pseudo) {
+            APP_STATE.currentUser = {
+                uid: 'demo_' + Date.now(),
+                pseudo: pseudo,
+                avatar: null,
+                stats: { tournamentsWon: 3, matchesWon: 28, avgScore: 8.2, avgResponseTime: 4.1 },
+                badges: ['first_win', 'speed_demon', 'champion'],
+                rank: 'Diamond',
+            };
+            APP_STATE.isLoggedIn = true;
+            updateUIAfterAuth();
+            showToast('✅ Connecté en mode démo !', 'success');
+            navigateTo('dashboard');
+        }
+
+        function handleAuthSuccess(user) {
+            APP_STATE.currentUser = {
+                uid: user.uid,
+                pseudo: user.displayName || user.email.split('@')[0],
+                avatar: user.photoURL || null,
+                stats: { tournamentsWon: 0, matchesWon: 0, avgScore: 0, avgResponseTime: 0 },
+                badges: [],
+                rank: 'Bronze',
+            };
+            APP_STATE.isLoggedIn = true;
+            updateUIAfterAuth();
+            showToast('✅ Connecté avec succès !', 'success');
+            navigateTo('dashboard');
+        }
+
+        function updateUIAfterAuth() {
+            const userBadge = document.getElementById('user-badge');
+            const btnLogin = document.getElementById('btn-login');
+            if (APP_STATE.isLoggedIn && APP_STATE.currentUser) {
+                userBadge.style.display = 'inline';
+                userBadge.textContent = '👤 ' + APP_STATE.currentUser.pseudo;
+                btnLogin.style.display = 'none';
+                document.getElementById('dash-username').textContent = APP_STATE.currentUser.pseudo;
+                document.getElementById('profile-pseudo').textContent = APP_STATE.currentUser.pseudo;
+            } else {
+                userBadge.style.display = 'none';
+                btnLogin.style.display = 'inline-block';
+            }
+        }
+
+        function logout() {
+            APP_STATE.currentUser = null;
+            APP_STATE.isLoggedIn = false;
+            updateUIAfterAuth();
+            detachAllListeners();
+            if (firebaseInitialized && auth.currentUser) auth.signOut();
+            navigateTo('home');
+            showToast('Déconnecté', 'info');
+        }
+
+        // --- Gestion avatar (ImgBB API simulée + Canvas resize) ---
+        function triggerAvatarUpload() {
+            document.getElementById('avatar-file-input').click();
+        }
+
+        function handleAvatarUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            // Redimensionner via Canvas API à 200x200 avant upload
+            const img = new Image();
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                img.src = e.target.result;
+            };
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 200;
+                canvas.height = 200;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, 200, 200);
+                const resizedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+                // Simuler upload ImgBB
+                simulateImgBBUpload(resizedDataUrl);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function simulateImgBBUpload(dataUrl) {
+            // En production : fetch vers https://api.imgbb.com/1/upload avec formData
+            showToast('📸 Photo uploadée (simulation)', 'success');
+            document.getElementById('profile-avatar-preview').innerHTML =
+                `<img src="${dataUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" alt="avatar">`;
+            if (APP_STATE.currentUser) APP_STATE.currentUser.avatar = dataUrl;
+            console.log('✅ Avatar redimensionné 200x200 et uploadé (simulation ImgBB)');
+        }
+
+        function editPseudo() {
+            const newPseudo = prompt('Nouveau pseudo (unique) :', APP_STATE.currentUser?.pseudo || '');
+            if (newPseudo && newPseudo.trim().length >= 3) {
+                // Vérification simulée Firestore
+                if (APP_STATE.currentUser) APP_STATE.currentUser.pseudo = newPseudo.trim();
+                document.getElementById('profile-pseudo').textContent = newPseudo.trim();
+                document.getElementById('dash-username').textContent = newPseudo.trim();
+                updateUIAfterAuth();
+                showToast('✅ Pseudo mis à jour !', 'success');
+                console.log('Vérification pseudo unique dans Firestore (simulée)');
+            } else if (newPseudo) {
+                showToast('Pseudo trop court (min 3 caractères)', 'error');
+            }
+        }
+
+        // --- Bracket visuel FIFA ---
+        function renderBracket() {
+            if (!APP_STATE.bracketData) generateBracketData();
+            const bracket = APP_STATE.bracketData;
+            const container = document.getElementById('bracket-container');
+            let html = '<div class="bracket-tree">';
+
+            bracket.rounds.forEach((round, roundIdx) => {
+                html += '<div class="bracket-round">';
+                html += `<div class="bracket-round-label">${round.name}</div>`;
+                round.matches.forEach((match, mIdx) => {
+                    const statusClass = match.status === 'live' ? 'live' : (match.status === 'done' ?
+                        'done' : '');
+                    html += `<div class="bracket-match ${statusClass}" data-round="${roundIdx}" data-match="${mIdx}">`;
+                    // Joueur 1
+                    const p1Winner = match.winner === 0;
+                    html += `<div class="player-slot ${p1Winner ? 'winner' : (match.winner !== null && match.winner !== undefined ? 'loser' : '')}">`;
+                    html +=
+                        `<span class="slot-avatar">${match.player1.avatar || '👤'}</span>`;
+                    html += `<span>${match.player1.pseudo}</span>`;
+                    if (match.player1.score > 0 || match.status === 'done') {
+                        html +=
+                            `<span class="slot-score">${match.player1.score}</span>`;
+                    }
+                    html += `</div>`;
+                    // Joueur 2
+                    const p2Winner = match.winner === 1;
+                    html += `<div class="player-slot ${p2Winner ? 'winner' : (match.winner !== null && match.winner !== undefined ? 'loser' : '')}">`;
+                    html +=
+                        `<span class="slot-avatar">${match.player2.avatar || '👤'}</span>`;
+                    html += `<span>${match.player2.pseudo}</span>`;
+                    if (match.player2.score > 0 || match.status === 'done') {
+                        html +=
+                            `<span class="slot-score">${match.player2.score}</span>`;
+                    }
+                    html += `</div>`;
+                    if (p1Winner) html +=
+                        '<span style="font-size:0.6rem;color:var(--green);">✅ Vainqueur</span>';
+                    if (p2Winner) html +=
+                        '<span style="font-size:0.6rem;color:var(--green);">✅ Vainqueur</span>';
+                    html += '</div>';
+                });
+                html += '</div>';
+                // Connecteur entre rounds
+                if (roundIdx < bracket.rounds.length - 1) {
+                    html += '<div class="bracket-connector">→</div>';
+                }
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+
+            // Ajouter écouteurs de clic sur les matchs live
+            container.querySelectorAll('.bracket-match.live').forEach(el => {
+                el.addEventListener('click', () => {
+                    navigateTo('match');
+                    showToast('⚔️ Match en direct rejoint !', 'info');
+                });
+            });
+            container.querySelectorAll('.bracket-match.done').forEach(el => {
+                el.addEventListener('click', () => {
+                    showToast('📋 Ce match est terminé', 'info');
+                });
+            });
+        }
+
+        // --- Match Quiz en temps réel ---
+        function startMatchCountdown() {
+            if (APP_STATE.matchInProgress) return;
+            const btnReady = document.getElementById('btn-ready-match');
+            btnReady.disabled = true;
+            btnReady.textContent = '⏳ 3...';
+            document.getElementById('match-feedback').textContent = '';
+            document.getElementById('score-p1').textContent = '0';
+            document.getElementById('score-p2').textContent = '0';
+            APP_STATE.playerScore = 0;
+            APP_STATE.opponentScore = 0;
+            APP_STATE.currentQuestionIndex = 0;
+            APP_STATE.questionAnswered = false;
+
+            // Countdown 3-2-1
+            let count = 3;
+            const countInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    btnReady.textContent = '⏳ ' + count + '...';
+                } else {
+                    clearInterval(countInterval);
+                    btnReady.textContent = '⚡ GO!';
+                    btnReady.style.display = 'none';
+                    document.getElementById('btn-leave-match').style.display = 'inline-block';
+                    startQuizMatch();
+                }
+            }, 1000);
+        }
+
+        function startQuizMatch() {
+            APP_STATE.matchInProgress = true;
+            // Mélanger et sélectionner 10 questions (20 pour grande finale)
+            const shuffled = [...DEMO_QUESTIONS].sort(() => Math.random() - 0.5);
+            APP_STATE.matchQuestions = shuffled.slice(0, 10); // 10 questions standard
+            APP_STATE.currentQuestionIndex = 0;
+            loadQuestion(0);
+        }
+
+        function loadQuestion(index) {
+            if (index >= APP_STATE.matchQuestions.length) {
+                endMatch();
+                return;
+            }
+            APP_STATE.currentQuestionIndex = index;
+            APP_STATE.questionAnswered = false;
+            const q = APP_STATE.matchQuestions[index];
+            document.getElementById('question-counter').textContent = `Question ${index + 1}/${APP_STATE.matchQuestions.length}`;
+            document.getElementById('question-text').textContent = q.question;
+            document.getElementById('match-timer').textContent = '15';
+            document.getElementById('match-timer').classList.remove('urgent');
+            document.getElementById('match-feedback').textContent = '';
+
+            const choicesContainer = document.getElementById('choices-container');
+            const labels = ['A', 'B', 'C', 'D'];
+            choicesContainer.innerHTML = q.options.map((opt, i) =>
+                `<button class="choice-btn" data-index="${i}" onclick="answerQuestion(${i}, this)">${labels[i]}. ${opt}</button>`
+            ).join('');
+
+            // Démarrer le timer
+            APP_STATE.matchTimer = 15;
+            if (APP_STATE.matchTimerInterval) clearInterval(APP_STATE.matchTimerInterval);
+            APP_STATE.matchTimerInterval = setInterval(() => {
+                APP_STATE.matchTimer--;
+                document.getElementById('match-timer').textContent = APP_STATE.matchTimer;
+                if (APP_STATE.matchTimer <= 5) {
+                    document.getElementById('match-timer').classList.add('urgent');
+                }
+                if (APP_STATE.matchTimer <= 0) {
+                    clearInterval(APP_STATE.matchTimerInterval);
+                    if (!APP_STATE.questionAnswered) {
+                        handleTimeout();
+                    }
+                }
+            }, 1000);
+
+            // Simuler la réponse de l'adversaire (Firestore onSnapshot en production)
+            simulateOpponentResponse(index);
+        }
+
+        function answerQuestion(choiceIndex, btnElement) {
+            if (APP_STATE.questionAnswered) return;
+            APP_STATE.questionAnswered = true;
+            clearInterval(APP_STATE.matchTimerInterval);
+
+            const q = APP_STATE.matchQuestions[APP_STATE.currentQuestionIndex];
+            const isCorrect = choiceIndex === q.correct;
+            const responseTime = 15 - APP_STATE.matchTimer;
+            let pointsEarned = 0;
+
+            // Calcul des points selon la vitesse
+            if (isCorrect) {
+                if (responseTime <= 3) pointsEarned = 10; // LIGHTNING
+                else if (responseTime <= 6) pointsEarned = 8; // FAST
+                else if (responseTime <= 9) pointsEarned = 6; // GOOD
+                else if (responseTime <= 12) pointsEarned = 4; // SLOW
+                else pointsEarned = 2; // JUST IN TIME
+            } else {
+                pointsEarned = -2; // Mauvaise réponse
+            }
+
+            APP_STATE.playerScore += pointsEarned;
+            if (APP_STATE.playerScore < 0) APP_STATE.playerScore = 0;
+            document.getElementById('score-p1').textContent = APP_STATE.playerScore;
+
+            // Feedback visuel
+            const allBtns = document.querySelectorAll('#choices-container .choice-btn');
+            allBtns.forEach(b => b.disabled = true);
+            if (isCorrect) {
+                btnElement.classList.add('correct');
+                document.getElementById('match-feedback').innerHTML =
+                    `<span style="color:var(--green);">✅ BONNE RÉPONSE ! +${pointsEarned} pts (${getSpeedLabel(responseTime)})</span>`;
+            } else {
+                btnElement.classList.add('wrong');
+                // Afficher la bonne réponse
+                allBtns[q.correct].classList.add('correct');
+                document.getElementById('match-feedback').innerHTML =
+                    `<span style="color:var(--red);">❌ MAUVAISE RÉPONSE ! ${pointsEarned} pts</span>`;
+            }
+
+            // Passer à la question suivante après délai
+            setTimeout(() => {
+                loadQuestion(APP_STATE.currentQuestionIndex + 1);
+            }, 1500);
+        }
+
+        function handleTimeout() {
+            APP_STATE.questionAnswered = true;
+            const allBtns = document.querySelectorAll('#choices-container .choice-btn');
+            allBtns.forEach(b => b.disabled = true);
+            const q = APP_STATE.matchQuestions[APP_STATE.currentQuestionIndex];
+            // Afficher la bonne réponse
+            allBtns[q.correct].classList.add('correct');
+            document.getElementById('match-feedback').innerHTML =
+                '<span style="color:var(--orange);">⏱️ TEMPS ÉCOULÉ ! 0 pt</span>';
+            APP_STATE.opponentScore += 4; // Bonus à l'adversaire
+            document.getElementById('score-p2').textContent = APP_STATE.opponentScore;
+            setTimeout(() => {
+                loadQuestion(APP_STATE.currentQuestionIndex + 1);
+            }, 1200);
+        }
+
+        function simulateOpponentResponse(questionIndex) {
+            // Simuler une réponse adverse avec délai aléatoire
+            const delay = Math.random() * 10000 + 2000; // 2-12 secondes
+            setTimeout(() => {
+                if (!APP_STATE.matchInProgress) return;
+                if (APP_STATE.currentQuestionIndex !== questionIndex) return; // Question déjà passée
+                const q = APP_STATE.matchQuestions[questionIndex];
+                const oppCorrect = Math.random() > 0.3; // 70% de chance de bonne réponse
+                const oppTime = Math.random() * 12;
+                let oppPoints = 0;
+                if (oppCorrect) {
+                    if (oppTime <= 3) oppPoints = 10;
+                    else if (oppTime <= 6) oppPoints = 8;
+                    else if (oppTime <= 9) oppPoints = 6;
+                    else if (oppTime <= 12) oppPoints = 4;
+                    else oppPoints = 2;
+                } else {
+                    oppPoints = -2;
+                }
+                APP_STATE.opponentScore += oppPoints;
+                if (APP_STATE.opponentScore < 0) APP_STATE.opponentScore = 0;
+                document.getElementById('score-p2').textContent = APP_STATE.opponentScore;
+                console.log(`🤖 Adversaire a répondu: ${oppCorrect ? 'Correct' : 'Faux'} +${oppPoints}pts`);
+            }, delay);
+        }
+
+        function getSpeedLabel(seconds) {
+            if (seconds <= 3) return '⚡ LIGHTNING';
+            if (seconds <= 6) return '🔥 FAST';
+            if (seconds <= 9) return '✅ GOOD';
+            if (seconds <= 12) return '🐢 SLOW';
+            return '😅 JUST IN TIME';
+        }
+
+        function endMatch() {
+            APP_STATE.matchInProgress = false;
+            clearInterval(APP_STATE.matchTimerInterval);
+            document.getElementById('match-timer').textContent = 'FIN';
+            document.getElementById('match-timer').classList.remove('urgent');
+            const p1Score = APP_STATE.playerScore;
+            const p2Score = APP_STATE.opponentScore;
+            const playerWon = p1Score > p2Score;
+            document.getElementById('match-feedback').innerHTML = playerWon ?
+                '<span style="color:var(--gold);font-size:1.5rem;">🏆 VOUS AVEZ GAGNÉ !</span>' :
+                '<span style="color:var(--red);font-size:1.3rem;">😞 Défaite...</span>';
+
+            // Lancer les confettis si victoire
+            if (playerWon) spawnConfetti();
+
+            document.getElementById('btn-ready-match').style.display = 'inline-block';
+            document.getElementById('btn-ready-match').disabled = false;
+            document.getElementById('btn-ready-match').textContent = '⚡ REJOUER';
+            document.getElementById('btn-leave-match').style.display = 'none';
+            document.getElementById('choices-container').innerHTML =
+                '<p style="color:var(--text-muted);">Match terminé ! Score final enregistré.</p>';
+
+            // Mettre à jour le bracket si applicable
+            console.log(`📊 Score final: Joueur ${p1Score} - ${p2Score} Adversaire`);
+            console.log('✅ Résultat envoyé à Firestore (batch write simulé)');
+        }
+
+        function leaveMatch() {
+            detachAllListeners();
+            APP_STATE.matchInProgress = false;
+            clearInterval(APP_STATE.matchTimerInterval);
+            document.getElementById('btn-ready-match').style.display = 'inline-block';
+            document.getElementById('btn-ready-match').disabled = false;
+            document.getElementById('btn-ready-match').textContent = '⚡ READY';
+            document.getElementById('btn-leave-match').style.display = 'none';
+            document.getElementById('match-feedback').textContent = 'Match abandonné';
+            document.getElementById('choices-container').innerHTML =
+                '<button class="choice-btn" disabled>A. ---</button><button class="choice-btn" disabled>B. ---</button><button class="choice-btn" disabled>C. ---</button><button class="choice-btn" disabled>D. ---</button>';
+            navigateTo('tournament');
+            showToast('Match quitté — forfait après 10s', 'info');
+        }
+
+        // --- Leaderboard ---
+        function renderFullLeaderboard(filter) {
+            const demoPlayers = [
+                { pseudo: 'JeanP_QC', score: 12450, matches: 87, rank: 'Diamond' },
+                { pseudo: 'Marie_Biz', score: 10820, matches: 76, rank: 'Gold' },
+                { pseudo: 'David_Eng', score: 9650, matches: 65, rank: 'Gold' },
+                { pseudo: 'Sophie_H', score: 8900, matches: 58, rank: 'Silver' },
+                { pseudo: 'Marc_CEO', score: 7750, matches: 52, rank: 'Silver' },
+                { pseudo: 'Laura_K', score: 7200, matches: 49, rank: 'Silver' },
+                { pseudo: 'Pierre_T', score: 6800, matches: 44, rank: 'Bronze' },
+                { pseudo: 'Nadia_M', score: 6100, matches: 40, rank: 'Bronze' },
+                { pseudo: 'Carlos_R', score: 5500, matches: 36, rank: 'Bronze' },
+                { pseudo: 'Esther_L', score: 4900, matches: 31, rank: 'Bronze' },
+            ];
+            const tbody = document.getElementById('leaderboard-body');
+            tbody.innerHTML = demoPlayers.map((p, i) => {
+                const rankBadge = i === 0 ? 'rank-1' : (i === 1 ? 'rank-2' : (i === 2 ? 'rank-3' : ''));
+                const rankIcon = i === 0 ? '🥇' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : (i + 1)));
+                const badgeClass = p.rank === 'Diamond' ? 'badge-gold' : (p.rank === 'Gold' ? 'badge-blue' : (
+                    p.rank === 'Silver' ? 'badge-red' : 'badge-green'));
+                return `<tr class="${i < 3 ? 'podium-row' : ''}">
+              <td class="rank-col"><span class="rank-badge ${rankBadge}">${rankIcon}</span></td>
+              <td>🇭🇹 ${p.pseudo}</td>
+              <td><strong>${p.score.toLocaleString()}</strong></td>
+              <td>${p.matches}</td>
+              <td><span class="badge ${badgeClass}">${p.rank}</span></td>
+            </tr>`;
+            }).join('');
+            document.getElementById('load-more-lb').style.display = 'block';
+        }
+
+        // --- Filtres leaderboard ---
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('filter-btn')) {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                renderFullLeaderboard(e.target.dataset.filter);
+            }
+        });
+
+        // --- Inscription tournoi ---
+        function registerTournament() {
+            if (!APP_STATE.isLoggedIn) {
+                showToast('🔐 Connecte-toi d\'abord pour t\'inscrire !', 'error');
+                navigateTo('auth');
+                return;
+            }
+            showToast('📋 Inscription au tournoi confirmée ! (simulation)', 'success');
+            console.log('✅ Joueur inscrit au tournoi — Firestore batch write simulé');
+            // Ajouter le joueur au bracket simulé
+            if (APP_STATE.bracketData && APP_STATE.bracketData.rounds[0].matches.length > 0) {
+                const randomMatch = APP_STATE.bracketData.rounds[0].matches[
+                    Math.floor(Math.random() * APP_STATE.bracketData.rounds[0].matches.length)
+                ];
+                randomMatch.player1 = {
+                    pseudo: APP_STATE.currentUser.pseudo,
+                    avatar: APP_STATE.currentUser.avatar || '👤',
+                    seed: Math.floor(Math.random() * 32) + 1,
+                    score: 0,
+                };
+                randomMatch.status = 'live';
+                renderBracket();
+            }
+        }
+
+        // --- Admin functions ---
+        function createTournament() {
+            const name = document.getElementById('admin-tournament-name').value || 'Nouveau Tournoi';
+            showToast(`🏆 Tournoi "${name}" créé ! (simulation)`, 'success');
+            console.log('✅ Tournoi créé dans Firestore (simulé)');
+            generateBracketData();
+            renderBracket();
+        }
+
+        function addQuestion() {
+            const q = document.getElementById('admin-question').value;
+            if (!q) { showToast('Veuillez entrer une question', 'error'); return; }
+            showToast('✅ Question ajoutée à la banque ! (simulation)', 'success');
+            console.log('✅ Question ajoutée à Firestore (batch write simulé)');
+            document.getElementById('admin-question').value = '';
+        }
+
+        // --- Dashboard ---
+        function updateDashboard() {
+            if (APP_STATE.currentUser) {
+                document.getElementById('dash-username').textContent = APP_STATE.currentUser.pseudo;
+            }
+        }
+
+        // --- Toasts ---
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `feedback-toast ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
+
+        // --- Confettis ---
+        function spawnConfetti() {
+            const colors = ['#FFD700', '#D21034', '#003F8A', '#00c853', '#ff9800', '#fff'];
+            for (let i = 0; i < 60; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.top = -(Math.random() * 40) + 'px';
+                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.width = (Math.random() * 12 + 6) + 'px';
+                piece.style.height = (Math.random() * 12 + 6) + 'px';
+                piece.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                piece.style.animationDelay = Math.random() * 1 + 's';
+                document.body.appendChild(piece);
+                setTimeout(() => piece.remove(), 4000);
+            }
+        }
+
+        // --- Particules d'arrière-plan ---
+        function initParticles() {
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const particles = [];
+            for (let i = 0; i < 40; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 2 + 0.5,
+                    dx: (Math.random() - 0.5) * 0.3,
+                    dy: (Math.random() - 0.5) * 0.3,
+                    alpha: Math.random() * 0.5 + 0.1,
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.x += p.dx;
+                    p.y += p.dy;
+                    if (p.x < 0) p.x = canvas.width;
+                    if (p.x > canvas.width) p.x = 0;
+                    if (p.y < 0) p.y = canvas.height;
+                    if (p.y > canvas.height) p.y = 0;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,215,0,${p.alpha})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+
+        // --- Countdown tournoi ---
+        function updateCountdown() {
+            const display = document.getElementById('countdown-display');
+            if (!display) return;
+            // Simuler un countdown vers le prochain tournoi
+            const now = new Date();
+            const target = new Date(now);
+            target.setHours(target.getHours() + 23);
+            target.setMinutes(45);
+            const diff = target - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            display.textContent = `${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        // --- Gestion de la déconnexion/forfait ---
+        window.addEventListener('beforeunload', () => {
+            detachAllListeners();
+            console.log('🧹 Tous les listeners Firestore détachés — joueur quitte la page');
+        });
+
+        // --- Initialisation ---
+        function initApp() {
+            initParticles();
+            generateBracketData();
+            renderBracket();
+            renderFullLeaderboard('all');
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+
+            // Observer l'authentification Firebase
+            if (firebaseInitialized && auth) {
+                auth.onAuthStateChanged(user => {
+                    if (user) {
+                        handleAuthSuccess(user);
+                    } else {
+                        APP_STATE.currentUser = null;
+                        APP_STATE.isLoggedIn = false;
+                        updateUIAfterAuth();
+                    }
+                });
+            }
+
+            // Navigation initiale
+            navigateTo('home');
+
+            console.log('🏆 ArenaQuizHaiti initialisé — "Compete · Learn · Rise"');
+            console.log('📱 PWA prête — ajoutez à l\'écran d\'accueil pour une expérience mobile optimale');
+            console.log('🔥 Stack: Firebase Auth + Firestore (onSnapshot) + ImgBB API + Cloudflare Pages');
+            console.log('⚡ Optimisations: Batch writes 500ms, listeners actifs seulement, cache localStorage');
+        }
+
+        // --- Démarrer l'application ---
+        document.addEventListener('DOMContentLoaded', initApp);
+
+        // --- Service Worker pour PWA ---
+        if ('serviceWorker' in navigator) {
+            // Enregistrer un SW minimal pour le mode hors-ligne
+            const swCode = `
+        const CACHE_NAME = 'arenaquizhaiti-v1';
+        self.addEventListener('install', e => { self.skipWaiting(); });
+        self.addEventListener('activate', e => { e.waitUntil(clients.claim()); });
+        self.addEventListener('fetch', e => {
+          e.respondWith(
+            fetch(e.request).catch(() => caches.match(e.request))
+          );
+        });
+      `;
+            const blob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            navigator.serviceWorker.register(swUrl).catch(() => {
+                // Mode démo sans SW
+            });
+        }
+
+        console.log('✅ ArenaQuizHaiti — Prêt pour le déploiement sur Cloudflare Pages !');
+        console.log('📋 N\'oubliez pas de configurer vos credentials Firebase dans firebaseConfig');
+        console.log('🖼️ ImgBB API key à configurer pour les uploads d\'avatar réels');
+        console.log('🔒 Firestore Security Rules à déployer pour la production');
+    </script>
+</body>
+</html>
