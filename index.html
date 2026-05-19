@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#07070F">
     <meta name="description" content="ArenaQuizHaiti - Compete · Learn · Rise - Quiz compétitif en temps réel format Coupe du Monde FIFA">
     <title>ArenaQuizHaiti | Compete · Learn · Rise</title>
@@ -14,12 +14,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Firebase SDK CDN -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js">
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <style>
         :root {
@@ -62,7 +59,6 @@
             -webkit-user-select: none;
         }
 
-        /* Scrollbar */
         ::-webkit-scrollbar {
             width: 4px;
             height: 4px;
@@ -75,7 +71,6 @@
             border-radius: 10px;
         }
 
-        /* ========== PARTICULES D'ARRIÈRE-PLAN ========== */
         #particles-canvas {
             position: fixed;
             top: 0;
@@ -87,7 +82,6 @@
             opacity: 0.3;
         }
 
-        /* ========== CONTENEUR PRINCIPAL ========== */
         #app {
             position: relative;
             z-index: 1;
@@ -97,7 +91,6 @@
             min-height: 100vh;
         }
 
-        /* ========== HEADER ========== */
         .app-header {
             display: flex;
             align-items: center;
@@ -203,7 +196,6 @@
             border-color: var(--border);
         }
 
-        /* ========== NAVIGATION INFÉRIEURE ========== */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -254,7 +246,6 @@
             font-size: 1.3rem;
         }
 
-        /* ========== PAGES ========== */
         .page {
             display: none;
             animation: fadeSlideIn 0.4s ease;
@@ -302,7 +293,6 @@
             }
         }
 
-        /* ========== CARTES ========== */
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -339,7 +329,6 @@
             color: var(--gold);
         }
 
-        /* ========== HERO ========== */
         .hero-section {
             text-align: center;
             padding: 30px 0;
@@ -397,7 +386,6 @@
             color: var(--text-muted);
         }
 
-        /* ========== BRACKET ========== */
         .bracket-container {
             overflow-x: auto;
             padding: 20px 0;
@@ -502,7 +490,6 @@
             font-size: 1.2rem;
         }
 
-        /* ========== QUIZ MATCH ========== */
         .match-arena {
             text-align: center;
         }
@@ -664,7 +651,6 @@
             color: #fff;
         }
 
-        /* ========== LEADERBOARD ========== */
         .leaderboard-table {
             width: 100%;
             border-collapse: collapse;
@@ -720,7 +706,6 @@
             background: var(--bg-card2);
         }
 
-        /* ========== BADGES ========== */
         .badge {
             display: inline-block;
             padding: 4px 10px;
@@ -749,7 +734,6 @@
             color: #000;
         }
 
-        /* ========== MODAL ========== */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -779,7 +763,6 @@
             margin-bottom: 16px;
         }
 
-        /* ========== FORMS ========== */
         .input-field {
             width: 100%;
             padding: 12px 16px;
@@ -798,7 +781,6 @@
             box-shadow: var(--shadow-blue);
         }
 
-        /* ========== CONFETTI ========== */
         .confetti-piece {
             position: fixed;
             width: 10px;
@@ -809,7 +791,64 @@
             border-radius: 2px;
         }
 
-        /* ========== RESPONSIVE ========== */
+        .avatar-placeholder {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #fff;
+            cursor: pointer;
+            border: 2px dashed var(--text-muted);
+            margin: 0 auto;
+            flex-direction: column;
+            text-align: center;
+        }
+        .chat-container {
+            background: var(--bg-card2);
+            border-radius: var(--radius-sm);
+            padding: 8px;
+            margin: 10px 0;
+            max-height: 150px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .chat-msg {
+            background: var(--bg);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            align-self: flex-start;
+            max-width: 80%;
+        }
+        .chat-msg.mine {
+            align-self: flex-end;
+            background: var(--blue);
+        }
+        .emoji-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 8px 0;
+        }
+        .emoji-btn {
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 8px;
+        }
+        .emoji-btn:hover {
+            background: var(--border);
+        }
+
         @media (max-width: 600px) {
             .hero-title {
                 font-size: 2rem;
@@ -859,10 +898,8 @@
 </head>
 <body>
 
-    <!-- Canvas pour particules d'arrière-plan -->
     <canvas id="particles-canvas"></canvas>
 
-    <!-- Conteneur principal de l'application SPA -->
     <div id="app">
         <!-- Header -->
         <header class="app-header">
@@ -876,6 +913,7 @@
             <div class="header-actions" id="header-actions">
                 <button class="btn btn-outline btn-sm" onclick="navigateTo('auth')" id="btn-login">Connexion</button>
                 <span id="user-badge" style="display:none;font-family:var(--font-label);color:var(--gold);font-weight:600;"></span>
+                <button class="btn btn-ghost btn-sm" onclick="logout()" id="btn-logout" style="display:none;">Déconnexion</button>
             </div>
         </header>
 
@@ -887,31 +925,21 @@
                 <p class="hero-subtitle">Compete · Learn · Rise</p>
                 <button class="btn btn-primary" onclick="navigateTo('tournament')">🔥 Rejoindre le Tournoi</button>
                 <div class="hero-stats">
-                    <div class="hero-stat"><div class="hero-stat-val" id="stat-players">247</div><div class="hero-stat-label">Joueurs</div></div>
-                    <div class="hero-stat"><div class="hero-stat-val" id="stat-tournaments">12</div><div class="hero-stat-label">Tournois</div></div>
-                    <div class="hero-stat"><div class="hero-stat-val" id="stat-countries">4</div><div class="hero-stat-label">Pays</div></div>
+                    <div class="hero-stat"><div class="hero-stat-val" id="stat-players">0</div><div class="hero-stat-label">Joueurs</div></div>
+                    <div class="hero-stat"><div class="hero-stat-val" id="stat-tournaments">0</div><div class="hero-stat-label">Tournois</div></div>
+                    <div class="hero-stat"><div class="hero-stat-val" id="stat-countries">1</div><div class="hero-stat-label">Pays</div></div>
                 </div>
             </div>
-            <!-- Prochain tournoi countdown -->
             <div class="card card-gold" style="text-align:center;">
                 <div class="card-header">⏳ Prochain Tournoi</div>
-                <div style="font-family:var(--font-title);font-size:2rem;letter-spacing:3px;color:#fff;" id="countdown-display">
-                    23h 45m 12s
-                </div>
+                <div style="font-family:var(--font-title);font-size:2rem;letter-spacing:3px;color:#fff;" id="countdown-display">--</div>
                 <p style="color:var(--text-muted);font-size:0.8rem;">Inscriptions ouvertes · 32 places</p>
             </div>
-            <!-- Top 5 leaderboard preview -->
             <div class="card">
                 <div class="card-header">🏅 Top 5 Global</div>
                 <table class="leaderboard-table">
                     <thead><tr><th class="rank-col">#</th><th>Joueur</th><th>Score</th><th>Rang</th></tr></thead>
-                    <tbody id="top5-preview">
-                        <tr><td class="rank-col"><span class="rank-badge rank-1">1</span></td><td>🇭🇹 JeanP_QC</td><td>12,450</td><td><span class="badge badge-gold">Diamond</span></td></tr>
-                        <tr><td class="rank-col"><span class="rank-badge rank-2">2</span></td><td>🇭🇹 Marie_Biz</td><td>10,820</td><td><span class="badge badge-blue">Gold</span></td></tr>
-                        <tr><td class="rank-col"><span class="rank-badge rank-3">3</span></td><td>🇭🇹 David_Eng</td><td>9,650</td><td><span class="badge badge-blue">Gold</span></td></tr>
-                        <tr><td class="rank-col">4</td><td>🇭🇹 Sophie_H</td><td>8,900</td><td><span class="badge badge-red">Silver</span></td></tr>
-                        <tr><td class="rank-col">5</td><td>🇭🇹 Marc_CEO</td><td>7,750</td><td><span class="badge badge-red">Silver</span></td></tr>
-                    </tbody>
+                    <tbody id="top5-preview"></tbody>
                 </table>
                 <button class="btn btn-outline btn-sm" style="margin-top:10px;" onclick="navigateTo('leaderboard')">Voir tout le classement →</button>
             </div>
@@ -922,14 +950,12 @@
             <div class="card card-gold" style="max-width:420px;margin:40px auto;text-align:center;">
                 <div class="card-header">🔐 Connexion</div>
                 <p style="margin-bottom:16px;color:var(--text-muted);">Rejoins l'arène et prouve ta valeur !</p>
-                <button class="btn btn-primary" style="width:100%;margin-bottom:8px;" onclick="loginWithGoogle()">
-                    🟡 Connexion avec Google
-                </button>
+                <button class="btn btn-primary" style="width:100%;margin-bottom:8px;" onclick="loginWithGoogle()">🟡 Connexion avec Google</button>
                 <div style="color:var(--text-muted);margin:12px 0;">— ou —</div>
                 <input type="email" class="input-field" placeholder="Email" id="auth-email">
                 <input type="password" class="input-field" placeholder="Mot de passe" id="auth-password">
                 <button class="btn btn-outline" style="width:100%;" onclick="loginWithEmail()">Se connecter</button>
-                <p style="margin-top:10px;font-size:0.75rem;color:var(--text-muted);cursor:pointer;" onclick="alert('Inscription simulée - Firebase Auth requis')">Pas de compte ? S'inscrire</p>
+                <p style="margin-top:10px;font-size:0.75rem;color:var(--text-muted);">Pas de compte ? L'inscription se fait via la connexion Google ou Email.</p>
             </div>
         </section>
 
@@ -947,42 +973,37 @@
             <div class="card">
                 <div class="card-header">📊 Mes Stats</div>
                 <div style="display:flex;gap:15px;flex-wrap:wrap;justify-content:space-around;text-align:center;">
-                    <div><div style="font-family:var(--font-title);font-size:1.8rem;color:var(--gold);">42</div><div style="font-size:0.7rem;color:var(--text-muted);">Matchs</div></div>
-                    <div><div style="font-family:var(--font-title);font-size:1.8rem;color:var(--gold);">28</div><div style="font-size:0.7rem;color:var(--text-muted);">Victoires</div></div>
-                    <div><div style="font-family:var(--font-title);font-size:1.8rem;color:var(--gold);">8.2</div><div style="font-size:0.7rem;color:var(--text-muted);">Score Moy.</div></div>
-                    <div><div style="font-family:var(--font-title);font-size:1.8rem;color:var(--gold);">4.1s</div><div style="font-size:0.7rem;color:var(--text-muted);">Vitesse</div></div>
+                    <div><div style="font-family:var(--font-title);font-size:1.8rem;color:var(--gold);" id="dash-stats-matches">0</div><div style="font-size:0.7rem;color:var(--text-muted);">Matchs</div></div>
+                    <div><div style="font-family:var(--font-title);font-size:1.8rem;color:var(--gold);" id="dash-stats-wins">0</div><div style="font-size:0.7rem;color:var(--text-muted);">Victoires</div></div>
+                    <div><div style="font-family:var(--font-title);font-size:1.8rem;color:var(--gold);" id="dash-stats-avg">0</div><div style="font-size:0.7rem;color:var(--text-muted);">Score Moy.</div></div>
+                    <div><div style="font-family:var(--font-title);font-size:1.8rem;color:var(--gold);" id="dash-stats-speed">0s</div><div style="font-size:0.7rem;color:var(--text-muted);">Vitesse</div></div>
                 </div>
             </div>
             <div class="card">
                 <div class="card-header">🏅 Badges</div>
-                <span class="badge badge-gold">🏆 Champion</span>
-                <span class="badge badge-green">⚡ Speed Demon</span>
-                <span class="badge badge-blue">🌟 First Win</span>
+                <span id="profile-badges"></span>
             </div>
         </section>
-<!-- ========== PAGE PROFIL ========== -->
+
+        <!-- ========== PAGE PROFIL ========== -->
         <section class="page" id="page-profile">
             <div class="card" style="text-align:center;">
-                <div style="width:100px;height:100px;border-radius:50%;background:var(--blue);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:40px;overflow:hidden;cursor:pointer;border:3px solid var(--gold);" id="profile-avatar-preview" onclick="triggerAvatarUpload()">
-                    👤
-                </div>
+                <div id="profile-avatar-preview" class="avatar-placeholder" onclick="triggerAvatarUpload()">👤</div>
                 <input type="file" id="avatar-file-input" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
-                <h3 style="font-family:var(--font-title);letter-spacing:2px;" id="profile-pseudo">JeanP_QC</h3>
-                <span class="badge badge-gold">Diamond</span>
+                <h3 style="font-family:var(--font-title);letter-spacing:2px;margin-top:8px;" id="profile-pseudo">Pseudo</h3>
+                <span class="badge badge-gold" id="profile-rank">Rang</span>
                 <p style="color:var(--text-muted);font-size:0.8rem;">Clique sur l'avatar pour changer</p>
                 <button class="btn btn-outline btn-sm" onclick="editPseudo()">✏️ Modifier le pseudo</button>
             </div>
             <div class="card">
                 <div class="card-header">📜 Historique Tournois</div>
-                <div style="color:var(--text-muted);font-size:0.8rem;">
-                    <p>🏆 Coupe Janvier 2026 — <span style="color:var(--green);">1ère place</span></p>
-                    <p>🔥 Coupe Décembre 2025 — <span style="color:var(--gold);">3ème place</span></p>
-                    <p>⚔️ Coupe Novembre 2025 — Quart de finale</p>
+                <div style="color:var(--text-muted);font-size:0.8rem;" id="profile-history">
+                    <p>Aucun historique pour le moment.</p>
                 </div>
             </div>
         </section>
 
-        <!-- ========== PAGE TOURNOI (BRACKET FIFA) ========== -->
+        <!-- ========== PAGE TOURNOI ========== -->
         <section class="page" id="page-tournament">
             <div class="section-title">🏆 <span>BRACKET</span> TOURNOI</div>
             <p style="text-align:center;color:var(--text-muted);margin-bottom:8px;">Coupe du Monde Business English · 32 Joueurs</p>
@@ -997,20 +1018,20 @@
             </div>
         </section>
 
-        <!-- ========== PAGE MATCH (QUIZ EN DIRECT) ========== -->
+        <!-- ========== PAGE MATCH ========== -->
         <section class="page" id="page-match">
             <div class="match-arena">
                 <div class="section-title">⚔️ <span>DUEL</span> EN DIRECT</div>
                 <div class="match-vs">
-                    <div class="match-player-card" id="mp-player1">
-                        <div class="mp-avatar">👤</div>
-                        <div class="mp-name">Vous</div>
+                    <div class="match-player-card">
+                        <div class="mp-avatar" id="match-avatar1">👤</div>
+                        <div class="mp-name" id="match-player1">Vous</div>
                         <div class="mp-score" id="score-p1">0</div>
                     </div>
                     <div class="match-vs-divider">VS</div>
-                    <div class="match-player-card" id="mp-player2">
-                        <div class="mp-avatar">🤖</div>
-                        <div class="mp-name">Adversaire</div>
+                    <div class="match-player-card">
+                        <div class="mp-avatar" id="match-avatar2">👤</div>
+                        <div class="mp-name" id="match-player2">Adversaire</div>
                         <div class="mp-score" id="score-p2">0</div>
                     </div>
                 </div>
@@ -1024,8 +1045,21 @@
                     <button class="choice-btn">D. Choix D</button>
                 </div>
                 <div id="match-feedback" style="min-height:30px;font-weight:600;letter-spacing:1px;"></div>
-                <button class="btn btn-primary" id="btn-ready-match" onclick="startMatchCountdown()">⚡ READY</button>
+                <button class="btn btn-primary" id="btn-ready-match" onclick="findMatch()">⚡ Trouver un match</button>
                 <button class="btn btn-outline btn-sm" id="btn-leave-match" style="display:none;" onclick="leaveMatch()">Quitter le match</button>
+
+                <!-- Chat emoji -->
+                <div class="chat-container" id="chat-messages"></div>
+                <div class="emoji-bar">
+                    <button class="emoji-btn" onclick="sendEmoji('🔥')">🔥</button>
+                    <button class="emoji-btn" onclick="sendEmoji('👏')">👏</button>
+                    <button class="emoji-btn" onclick="sendEmoji('😱')">😱</button>
+                    <button class="emoji-btn" onclick="sendEmoji('💪')">💪</button>
+                    <button class="emoji-btn" onclick="sendEmoji('🎯')">🎯</button>
+                    <button class="emoji-btn" onclick="sendEmoji('😂')">😂</button>
+                    <button class="emoji-btn" onclick="sendEmoji('😎')">😎</button>
+                    <button class="emoji-btn" onclick="sendEmoji('🤔')">🤔</button>
+                </div>
             </div>
         </section>
 
@@ -1038,11 +1072,9 @@
                 <button class="btn btn-ghost btn-sm filter-btn" data-filter="month">Ce Mois</button>
             </div>
             <div class="card" style="overflow-x:auto;">
-                <table class="leaderboard-table" id="full-leaderboard">
+                <table class="leaderboard-table">
                     <thead><tr><th class="rank-col">#</th><th>Joueur</th><th>Score</th><th>Matchs</th><th>Rang</th></tr></thead>
-                    <tbody id="leaderboard-body">
-                        <!-- Rempli dynamiquement -->
-                    </tbody>
+                    <tbody id="leaderboard-body"></tbody>
                 </table>
             </div>
             <button class="btn btn-ghost btn-sm" style="display:block;margin:0 auto;" id="load-more-lb">Charger plus...</button>
@@ -1081,7 +1113,7 @@
         </section>
     </div>
 
-    <!-- Navigation inférieure -->
+    <!-- Bottom nav -->
     <nav class="bottom-nav">
         <button class="nav-item active" data-page="home" onclick="navigateTo('home')">
             <span class="nav-icon">🏠</span> Accueil
@@ -1100,804 +1132,470 @@
         </button>
     </nav>
 
-    <!-- Toast container -->
     <div id="toast-container"></div>
 
     <script>
-        // ============================================================
-        // 🏆 ARENA QUIZ HAITI — Application Complète SPA
-        // Stack : HTML5 + CSS3 + JavaScript Vanilla + Firebase CDN
-        // Commentaires en français
-        // ============================================================
-
-        // --- Configuration Firebase (À REMPLACER par vos propres credentials) ---
+        // ==================== CONFIGURATION ====================
         const firebaseConfig = {
-            apiKey: "AIzaSyD-PLACEHOLDER-KEY",
+            apiKey: "AIzaSyD_KGKbU_w0KUgY4e5w1kUAMH4eNGfT5Mg",
             authDomain: "arenaquizhaiti.firebaseapp.com",
             projectId: "arenaquizhaiti",
-            storageBucket: "arenaquizhaiti.appspot.com",
-            messagingSenderId: "000000000000",
-            appId: "1:000000000000:web:abcdefgh"
+            storageBucket: "arenaquizhaiti.firebasestorage.app",
+            messagingSenderId: "583786368162",
+            appId: "1:583786368162:web:069093986658386f555bfb"
         };
+        const IMGBB_API_KEY = "555e4fae57d7a9f253b9a34addfe8609";
+        const QUESTIONS_URL = "https://api.npoint.io/9012943f884affc737a0";
 
-        // Initialisation Firebase (mode compat)
-        let firebaseInitialized = false;
-        let auth, db;
-        try {
-            firebase.initializeApp(firebaseConfig);
-            auth = firebase.auth();
-            db = firebase.firestore();
-            // Activer le mode hors-ligne pour économiser les lectures
-            db.enablePersistence({ synchronizeTabs: true }).catch(() => {});
-            firebaseInitialized = true;
-            console.log('✅ Firebase initialisé');
-        } catch (e) {
-            console.warn('⚠️ Firebase non initialisé — mode démo actif. Configurez vos credentials.');
-            console.warn('Erreur:', e.message);
-        }
+        // Initialisation Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        db.enablePersistence({ synchronizeTabs: true }).catch(() => {});
 
-        // --- État global de l'application ---
-        const APP_STATE = {
+        // ==================== ÉTAT GLOBAL ====================
+        const STATE = {
             currentPage: 'home',
-            currentUser: null, // {uid, pseudo, avatar, stats, badges, rank}
+            user: null,
             isLoggedIn: false,
-            tournamentPlayers: [], // Joueurs inscrits au tournoi actif
-            bracketData: null, // Données du bracket
             matchInProgress: false,
-            matchQuestions: [],
+            matchId: null,
+            currentMatchData: null,
+            questions: [],
             currentQuestionIndex: 0,
-            playerScore: 0,
+            score: 0,
             opponentScore: 0,
-            matchTimer: 15,
-            matchTimerInterval: null,
-            questionAnswered: false,
-            activeListeners: [], // Pour cleanup onSnapshot
+            timer: 15,
+            timerInterval: null,
+            opponentAnswered: false,
+            matchListener: null,
+            chatListener: null,
+            matchmakingListener: null
         };
 
-        // --- Questions de démonstration (cache local) ---
-        const DEMO_QUESTIONS = [
-            { question: 'What does "ROI" stand for in business?', options: ['Return On Investment',
-                    'Rate Of Interest', 'Revenue Over Income', 'Return Of Inventory'
-                ], correct: 0, category: 'business_english' },
-            { question: 'Which sentence is grammatically correct?', options: ['He go to school',
-                    'He goes to school', 'He going to school', 'He gone to school'
-                ], correct: 1, category: 'general_english' },
-            { question: 'Quelle est la capitale d\'Haïti?', options: ['Cap-Haïtien', 'Port-au-Prince',
-                    'Jacmel', 'Les Cayes'
-                ], correct: 1, category: 'haiti_culture' },
-            { question: 'What is a "startup"?', options: ['A large corporation',
-                    'A newly established business', 'A government agency', 'A type of investment'], correct: 1,
-                category: 'business_iq' },
-            { question: '"Synergy" in business means...', options: ['Working against each other',
-                    'Combined effort greater than individual parts', 'Reducing staff',
-                    'Outsourcing operations'
-                ], correct: 1, category: 'business_english' },
-            { question: 'Choose the correct word: "They ___ finished the project."', options: ['has', 'have',
-                    'is', 'was'], correct: 1, category: 'general_english' },
-            { question: 'Qui a écrit "Gouverneurs de la Rosée"?', options: ['Dany Laferrière',
-                    'Jacques Roumain', 'Frankétienne', 'René Depestre'], correct: 1, category: 'haiti_culture' },
-            { question: 'What does "KPI" measure?', options: ['Kitchen Performance Index',
-                    'Key Performance Indicator', 'Knowledge Processing Interface',
-                'Kinetic Profit Investment'], correct: 1, category: 'business_iq' },
-            { question: 'A "merger" is when two companies...', options: ['Go bankrupt', 'Combine into one',
-                    'Sell all assets', 'Hire new CEOs'], correct: 1, category: 'business_english' },
-            { question: '"She ___ to the gym every morning."', options: ['go', 'goes', 'going', 'gone'],
-                correct: 1, category: 'general_english' },
-            { question: 'Haïti a obtenu son indépendance en...', options: ['1791', '1804', '1825', '1789'],
-                correct: 1, category: 'haiti_culture' },
-            { question: 'What is "cash flow"?', options: ['Money spent on luxury',
-                    'Movement of money in/out of business', 'Stock market trading',
-                'Employee salary payments'], correct: 1, category: 'business_iq' },
-            { question: '"Leverage" in finance refers to...', options: ['Borrowing money to invest',
-                    'Saving all profits', 'Avoiding all risks', 'Paying taxes early'], correct: 0,
-                category: 'business_english' },
-            { question: 'Which is correct? "There ___ many people."', options: ['is', 'are', 'am', 'be'],
-                correct: 1, category: 'general_english' },
-            { question: 'Le drapeau haïtien actuel date de...', options: ['1804', '1986', '1806', '1843'],
-                correct: 1, category: 'haiti_culture' },
-            { question: 'A "dividend" is...', options: ['A type of loan',
-                    'Profit distributed to shareholders', 'Company expense', 'Tax payment'], correct: 1,
-                category: 'business_iq' },
-            { question: '"To break even" means...', options: ['To lose money',
-                    'To have revenue equal costs', 'To double profits', 'To shut down'], correct: 1,
-                category: 'business_english' },
-            { question: '"I ___ seen that movie before."', options: ['has', 'have', 'am', 'was'], correct: 1,
-                category: 'general_english' },
-            { question: 'Quel plat haïtien est à base de maïs?', options: ['Griot', 'Mayi moulen', 'Tassot',
-                    'Diri ak djon djon'], correct: 1, category: 'haiti_culture' },
-            { question: 'What is "equity" in business?', options: ['Debt obligation',
-                    'Ownership in a company', 'Monthly salary', 'Office equipment'], correct: 1,
-                category: 'business_iq' },
-        ];
-
-        // --- Données simulées pour le bracket ---
-        function generateBracketData() {
-            const players = [
-                { pseudo: 'JeanP_QC', avatar: '👤', seed: 1 },
-                { pseudo: 'Marie_Biz', avatar: '👩‍💼', seed: 2 },
-                { pseudo: 'David_Eng', avatar: '👨‍🎓', seed: 3 },
-                { pseudo: 'Sophie_H', avatar: '👩‍💻', seed: 4 },
-                { pseudo: 'Marc_CEO', avatar: '👨‍💼', seed: 5 },
-                { pseudo: 'Laura_K', avatar: '👩‍🏫', seed: 6 },
-                { pseudo: 'Pierre_T', avatar: '👨‍🔧', seed: 7 },
-                { pseudo: 'Nadia_M', avatar: '👩‍🎨', seed: 8 },
-                { pseudo: 'Carlos_R', avatar: '👨‍🍳', seed: 9 },
-                { pseudo: 'Esther_L', avatar: '👩‍⚕️', seed: 10 },
-                { pseudo: 'Frantz_D', avatar: '👨‍🏫', seed: 11 },
-                { pseudo: 'Gina_P', avatar: '👩‍🔬', seed: 12 },
-                { pseudo: 'Herve_B', avatar: '👨‍🎤', seed: 13 },
-                { pseudo: 'Isabelle_C', avatar: '👩‍✈️', seed: 14 },
-                { pseudo: 'Jacques_V', avatar: '👨‍🚀', seed: 15 },
-                { pseudo: 'Karine_S', avatar: '👩‍🚒', seed: 16 },
-            ];
-            // Simuler 32 joueurs en dupliquant
-            const all32 = [];
-            for (let i = 0; i < 32; i++) {
-                const base = players[i % players.length];
-                all32.push({ ...base, pseudo: base.pseudo + '_' + (i + 1), seed: i + 1 });
-            }
-            // Construire les rounds
-            const bracket = {
-                rounds: [
-                    { name: 'Huitièmes', matches: [] },
-                    { name: 'Quarts', matches: [] },
-                    { name: 'Demi-finales', matches: [] },
-                    { name: 'Petite Finale', matches: [] },
-                    { name: 'Grande Finale', matches: [] },
-                ],
-            };
-            // Huitièmes : 16 matchs
-            for (let i = 0; i < 16; i++) {
-                const p1 = all32[i * 2];
-                const p2 = all32[i * 2 + 1];
-                const winnerIdx = Math.random() > 0.5 ? 0 : 1;
-                bracket.rounds[0].matches.push({
-                    player1: { ...p1, score: winnerIdx === 0 ? Math.floor(Math.random() * 30) + 40 : Math.floor(Math
-                            .random() * 30) + 20 },
-                    player2: { ...p2, score: winnerIdx === 1 ? Math.floor(Math.random() * 30) + 40 : Math.floor(Math
-                            .random() * 30) + 20 },
-                    winner: winnerIdx,
-                    status: 'done',
-                });
-            }
-            // Quarts : 8 matchs (simulés)
-            for (let i = 0; i < 8; i++) {
-                const prevM = bracket.rounds[0].matches[i * 2];
-                const prevM2 = bracket.rounds[0].matches[i * 2 + 1];
-                const w1 = prevM.winner === 0 ? prevM.player1 : prevM.player2;
-                const w2 = prevM2.winner === 0 ? prevM2.player1 : prevM2.player2;
-                const winnerIdx = i < 6 ? (Math.random() > 0.5 ? 0 : 1) : null; // 2 matchs encore "live"
-                bracket.rounds[1].matches.push({
-                    player1: { ...w1, score: winnerIdx === 0 ? Math.floor(Math.random() * 25) + 30 : (winnerIdx ===
-                            1 ? Math.floor(Math.random() * 20) + 15 : 0) },
-                    player2: { ...w2, score: winnerIdx === 1 ? Math.floor(Math.random() * 25) + 30 : (winnerIdx ===
-                            0 ? Math.floor(Math.random() * 20) + 15 : 0) },
-                    winner: winnerIdx,
-                    status: i >= 6 ? 'live' : 'done',
-                });
-            }
-            // Demi-finales : 4 matchs
-            for (let i = 0; i < 4; i++) {
-                bracket.rounds[2].matches.push({
-                    player1: { pseudo: 'TBD', avatar: '❓', seed: '-', score: 0 },
-                    player2: { pseudo: 'TBD', avatar: '❓', seed: '-', score: 0 },
-                    winner: null,
-                    status: 'pending',
-                });
-            }
-            // Petite finale
-            bracket.rounds[3].matches.push({
-                player1: { pseudo: 'TBD', avatar: '❓', seed: '-', score: 0 },
-                player2: { pseudo: 'TBD', avatar: '❓', seed: '-', score: 0 },
-                winner: null,
-                status: 'pending',
-            });
-            // Grande finale
-            bracket.rounds[4].matches.push({
-                player1: { pseudo: 'TBD', avatar: '❓', seed: '-', score: 0 },
-                player2: { pseudo: 'TBD', avatar: '❓', seed: '-', score: 0 },
-                winner: null,
-                status: 'pending',
-            });
-            APP_STATE.bracketData = bracket;
-            return bracket;
+        // ==================== UTILITAIRES ====================
+        function showToast(msg, type='info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `feedback-toast ${type}`;
+            toast.textContent = msg;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.opacity='0'; setTimeout(()=>toast.remove(),300); }, 2000);
         }
 
-        // --- Navigation SPA ---
-        function navigateTo(pageName) {
-            // Désactiver tous les listeners actifs (optimisation)
-            detachAllListeners();
-
-            // Cacher toutes les pages
+        function navigateTo(page) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            // Afficher la page cible
-            const targetPage = document.getElementById('page-' + pageName);
-            if (targetPage) {
-                targetPage.classList.add('active');
-                APP_STATE.currentPage = pageName;
-            }
-            // Mettre à jour la navigation inférieure
-            document.querySelectorAll('.bottom-nav .nav-item').forEach(n => {
-                n.classList.toggle('active', n.dataset.page === pageName);
-            });
-            // Scroll top
+            const target = document.getElementById('page-' + page);
+            if (target) target.classList.add('active');
+            STATE.currentPage = page;
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.toggle('active', n.dataset.page === page));
             window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            // Actions spécifiques à la page
-            if (pageName === 'tournament') {
-                renderBracket();
-            }
-            if (pageName === 'leaderboard') {
-                renderFullLeaderboard('all');
-            }
-            if (pageName === 'dashboard' && APP_STATE.isLoggedIn) {
-                updateDashboard();
-            }
-
-            console.log('📍 Navigation vers:', pageName);
+            if (page !== 'match') leaveMatch();
+            if (page === 'home') renderHomePage();
+            if (page === 'dashboard' && STATE.isLoggedIn) renderDashboard();
+            if (page === 'profile' && STATE.isLoggedIn) renderProfile();
+            if (page === 'tournament') renderTournamentPage();
+            if (page === 'match') renderMatchPage();
+            if (page === 'leaderboard') renderLeaderboardPage('all');
         }
 
-        // --- Nettoyage des listeners Firestore ---
-        function detachAllListeners() {
-            APP_STATE.activeListeners.forEach(unsub => {
-                if (typeof unsub === 'function') unsub();
-            });
-            APP_STATE.activeListeners = [];
-            if (APP_STATE.matchTimerInterval) {
-                clearInterval(APP_STATE.matchTimerInterval);
-                APP_STATE.matchTimerInterval = null;
+        // ==================== AUTH ====================
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const userRef = db.collection('users').doc(user.uid);
+                const doc = await userRef.get();
+                if (!doc.exists) {
+                    const newUser = {
+                        uid: user.uid,
+                        pseudo: user.displayName || user.email.split('@')[0],
+                        avatar: user.photoURL || null,
+                        stats: { tournamentsWon:0, matchesWon:0, avgScore:0, avgResponseTime:0, matchesPlayed:0 },
+                        badges: [],
+                        rank: 'Bronze',
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+                    await userRef.set(newUser);
+                    STATE.user = newUser;
+                } else {
+                    STATE.user = { id: doc.id, ...doc.data() };
+                }
+                STATE.isLoggedIn = true;
+                document.getElementById('btn-login').style.display = 'none';
+                document.getElementById('user-badge').style.display = 'inline';
+                document.getElementById('user-badge').textContent = '👤 ' + STATE.user.pseudo;
+                document.getElementById('btn-logout').style.display = 'inline';
+            } else {
+                STATE.user = null;
+                STATE.isLoggedIn = false;
+                document.getElementById('btn-login').style.display = 'inline';
+                document.getElementById('user-badge').style.display = 'none';
+                document.getElementById('btn-logout').style.display = 'none';
             }
-            APP_STATE.matchInProgress = false;
-        }
+            updateUI();
+        });
 
-        // --- Gestion de l'authentification ---
         function loginWithGoogle() {
-            if (!firebaseInitialized) {
-                simulateLogin('GoogleUser_Demo');
-                return;
-            }
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).then(result => {
-                handleAuthSuccess(result.user);
-            }).catch(err => {
-                console.error('Erreur login Google:', err);
-                showToast('Erreur de connexion Google', 'error');
-                simulateLogin('GoogleUser_Demo');
-            });
+            auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(err => showToast('Erreur: '+err.message, 'error'));
         }
 
         function loginWithEmail() {
-            const email = document.getElementById('auth-email').value;
+            const email = document.getElementById('auth-email').value.trim();
             const pass = document.getElementById('auth-password').value;
-            if (!email || !pass) {
-                showToast('Veuillez remplir tous les champs', 'error');
-                return;
-            }
-            if (!firebaseInitialized) {
-                simulateLogin(email.split('@')[0]);
-                return;
-            }
-            auth.signInWithEmailAndPassword(email, pass).then(result => {
-                handleAuthSuccess(result.user);
-            }).catch(err => {
-                console.error('Erreur login email:', err);
-                showToast('Email ou mot de passe incorrect', 'error');
-                simulateLogin(email.split('@')[0]);
-            });
-        }
-
-        function simulateLogin(pseudo) {
-            APP_STATE.currentUser = {
-                uid: 'demo_' + Date.now(),
-                pseudo: pseudo,
-                avatar: null,
-                stats: { tournamentsWon: 3, matchesWon: 28, avgScore: 8.2, avgResponseTime: 4.1 },
-                badges: ['first_win', 'speed_demon', 'champion'],
-                rank: 'Diamond',
-            };
-            APP_STATE.isLoggedIn = true;
-            updateUIAfterAuth();
-            showToast('✅ Connecté en mode démo !', 'success');
-            navigateTo('dashboard');
-        }
-
-        function handleAuthSuccess(user) {
-            APP_STATE.currentUser = {
-                uid: user.uid,
-                pseudo: user.displayName || user.email.split('@')[0],
-                avatar: user.photoURL || null,
-                stats: { tournamentsWon: 0, matchesWon: 0, avgScore: 0, avgResponseTime: 0 },
-                badges: [],
-                rank: 'Bronze',
-            };
-            APP_STATE.isLoggedIn = true;
-            updateUIAfterAuth();
-            showToast('✅ Connecté avec succès !', 'success');
-            navigateTo('dashboard');
-        }
-
-        function updateUIAfterAuth() {
-            const userBadge = document.getElementById('user-badge');
-            const btnLogin = document.getElementById('btn-login');
-            if (APP_STATE.isLoggedIn && APP_STATE.currentUser) {
-                userBadge.style.display = 'inline';
-                userBadge.textContent = '👤 ' + APP_STATE.currentUser.pseudo;
-                btnLogin.style.display = 'none';
-                document.getElementById('dash-username').textContent = APP_STATE.currentUser.pseudo;
-                document.getElementById('profile-pseudo').textContent = APP_STATE.currentUser.pseudo;
-            } else {
-                userBadge.style.display = 'none';
-                btnLogin.style.display = 'inline-block';
-            }
+            if (!email || !pass) return showToast('Veuillez remplir tous les champs', 'error');
+            auth.signInWithEmailAndPassword(email, pass).catch(err => showToast('Erreur: '+err.message, 'error'));
         }
 
         function logout() {
-            APP_STATE.currentUser = null;
-            APP_STATE.isLoggedIn = false;
-            updateUIAfterAuth();
-            detachAllListeners();
-            if (firebaseInitialized && auth.currentUser) auth.signOut();
+            auth.signOut();
+            STATE.user = null; STATE.isLoggedIn = false;
             navigateTo('home');
-            showToast('Déconnecté', 'info');
         }
 
-        // --- Gestion avatar (ImgBB API simulée + Canvas resize) ---
+        // ==================== AVATAR ====================
         function triggerAvatarUpload() {
             document.getElementById('avatar-file-input').click();
         }
 
-        function handleAvatarUpload(event) {
+        async function handleAvatarUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
-            // Redimensionner via Canvas API à 200x200 avant upload
-            const img = new Image();
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                img.src = e.target.result;
-            };
-            img.onload = function() {
-                const canvas = document.createElement('canvas');
-                canvas.width = 200;
-                canvas.height = 200;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, 200, 200);
-                const resizedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
-                // Simuler upload ImgBB
-                simulateImgBBUpload(resizedDataUrl);
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function simulateImgBBUpload(dataUrl) {
-            // En production : fetch vers https://api.imgbb.com/1/upload avec formData
-            showToast('📸 Photo uploadée (simulation)', 'success');
-            document.getElementById('profile-avatar-preview').innerHTML =
-                `<img src="${dataUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" alt="avatar">`;
-            if (APP_STATE.currentUser) APP_STATE.currentUser.avatar = dataUrl;
-            console.log('✅ Avatar redimensionné 200x200 et uploadé (simulation ImgBB)');
-        }
-
-        function editPseudo() {
-            const newPseudo = prompt('Nouveau pseudo (unique) :', APP_STATE.currentUser?.pseudo || '');
-            if (newPseudo && newPseudo.trim().length >= 3) {
-                // Vérification simulée Firestore
-                if (APP_STATE.currentUser) APP_STATE.currentUser.pseudo = newPseudo.trim();
-                document.getElementById('profile-pseudo').textContent = newPseudo.trim();
-                document.getElementById('dash-username').textContent = newPseudo.trim();
-                updateUIAfterAuth();
-                showToast('✅ Pseudo mis à jour !', 'success');
-                console.log('Vérification pseudo unique dans Firestore (simulée)');
-            } else if (newPseudo) {
-                showToast('Pseudo trop court (min 3 caractères)', 'error');
+            const img = await createImageBitmap(file);
+            const canvas = document.createElement('canvas');
+            canvas.width = 200; canvas.height = 200;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, 200, 200);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+            const formData = new FormData();
+            formData.append('image', dataUrl.split(',')[1]);
+            const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method:'POST', body:formData });
+            const json = await res.json();
+            if (json.success) {
+                await db.collection('users').doc(STATE.user.uid).update({ avatar: json.data.url });
+                STATE.user.avatar = json.data.url;
+                document.getElementById('profile-avatar-preview').innerHTML = `<img src="${json.data.url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+                showToast('Photo de profil mise à jour !', 'success');
+            } else {
+                showToast('Erreur lors de l\'upload', 'error');
             }
         }
 
-        // --- Bracket visuel FIFA ---
-        function renderBracket() {
-            if (!APP_STATE.bracketData) generateBracketData();
-            const bracket = APP_STATE.bracketData;
-            const container = document.getElementById('bracket-container');
-            let html = '<div class="bracket-tree">';
-
-            bracket.rounds.forEach((round, roundIdx) => {
-                html += '<div class="bracket-round">';
-                html += `<div class="bracket-round-label">${round.name}</div>`;
-                round.matches.forEach((match, mIdx) => {
-                    const statusClass = match.status === 'live' ? 'live' : (match.status === 'done' ?
-                        'done' : '');
-                    html += `<div class="bracket-match ${statusClass}" data-round="${roundIdx}" data-match="${mIdx}">`;
-                    // Joueur 1
-                    const p1Winner = match.winner === 0;
-                    html += `<div class="player-slot ${p1Winner ? 'winner' : (match.winner !== null && match.winner !== undefined ? 'loser' : '')}">`;
-                    html +=
-                        `<span class="slot-avatar">${match.player1.avatar || '👤'}</span>`;
-                    html += `<span>${match.player1.pseudo}</span>`;
-                    if (match.player1.score > 0 || match.status === 'done') {
-                        html +=
-                            `<span class="slot-score">${match.player1.score}</span>`;
-                    }
-                    html += `</div>`;
-                    // Joueur 2
-                    const p2Winner = match.winner === 1;
-                    html += `<div class="player-slot ${p2Winner ? 'winner' : (match.winner !== null && match.winner !== undefined ? 'loser' : '')}">`;
-                    html +=
-                        `<span class="slot-avatar">${match.player2.avatar || '👤'}</span>`;
-                    html += `<span>${match.player2.pseudo}</span>`;
-                    if (match.player2.score > 0 || match.status === 'done') {
-                        html +=
-                            `<span class="slot-score">${match.player2.score}</span>`;
-                    }
-                    html += `</div>`;
-                    if (p1Winner) html +=
-                        '<span style="font-size:0.6rem;color:var(--green);">✅ Vainqueur</span>';
-                    if (p2Winner) html +=
-                        '<span style="font-size:0.6rem;color:var(--green);">✅ Vainqueur</span>';
-                    html += '</div>';
-                });
-                html += '</div>';
-                // Connecteur entre rounds
-                if (roundIdx < bracket.rounds.length - 1) {
-                    html += '<div class="bracket-connector">→</div>';
-                }
-            });
-
-            html += '</div>';
-            container.innerHTML = html;
-
-            // Ajouter écouteurs de clic sur les matchs live
-            container.querySelectorAll('.bracket-match.live').forEach(el => {
-                el.addEventListener('click', () => {
-                    navigateTo('match');
-                    showToast('⚔️ Match en direct rejoint !', 'info');
-                });
-            });
-            container.querySelectorAll('.bracket-match.done').forEach(el => {
-                el.addEventListener('click', () => {
-                    showToast('📋 Ce match est terminé', 'info');
-                });
-            });
+        // ==================== QUESTIONS ====================
+        async function loadQuestions() {
+            const cache = localStorage.getItem('questions_cache');
+            if (cache) return JSON.parse(cache);
+            const res = await fetch(QUESTIONS_URL);
+            const questions = await res.json();
+            localStorage.setItem('questions_cache', JSON.stringify(questions));
+            return questions;
         }
 
-        // --- Match Quiz en temps réel ---
-        function startMatchCountdown() {
-            if (APP_STATE.matchInProgress) return;
-            const btnReady = document.getElementById('btn-ready-match');
-            btnReady.disabled = true;
-            btnReady.textContent = '⏳ 3...';
-            document.getElementById('match-feedback').textContent = '';
-            document.getElementById('score-p1').textContent = '0';
-            document.getElementById('score-p2').textContent = '0';
-            APP_STATE.playerScore = 0;
-            APP_STATE.opponentScore = 0;
-            APP_STATE.currentQuestionIndex = 0;
-            APP_STATE.questionAnswered = false;
-
-            // Countdown 3-2-1
-            let count = 3;
-            const countInterval = setInterval(() => {
-                count--;
-                if (count > 0) {
-                    btnReady.textContent = '⏳ ' + count + '...';
-                } else {
-                    clearInterval(countInterval);
-                    btnReady.textContent = '⚡ GO!';
-                    btnReady.style.display = 'none';
-                    document.getElementById('btn-leave-match').style.display = 'inline-block';
-                    startQuizMatch();
+        // ==================== MATCHMAKING ====================
+        async function findMatch() {
+            if (!STATE.isLoggedIn) { showToast('Connecte-toi !', 'error'); navigateTo('auth'); return; }
+            showToast('Recherche d\'un adversaire...', 'info');
+            const mmRef = db.collection('matchmaking').doc(STATE.user.uid);
+            await mmRef.set({
+                uid: STATE.user.uid,
+                pseudo: STATE.user.pseudo,
+                avatar: STATE.user.avatar,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            STATE.matchmakingListener = db.collection('matchmaking')
+                .where('uid', '!=', STATE.user.uid)
+                .limit(1)
+                .onSnapshot(async (snapshot) => {
+                    if (!snapshot.empty && !STATE.matchInProgress) {
+                        const opponentDoc = snapshot.docs[0];
+                        const opponent = opponentDoc.data();
+                        const matchRef = db.collection('matches').doc();
+                        await matchRef.set({
+                            players: [
+                                { uid: STATE.user.uid, pseudo: STATE.user.pseudo, avatar: STATE.user.avatar },
+                                { uid: opponent.uid, pseudo: opponent.pseudo, avatar: opponent.avatar }
+                            ],
+                            status: 'starting',
+                            scores: [0, 0],
+                            currentQuestion: 0,
+                            questions: [],
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                        await mmRef.delete();
+                        await opponentDoc.ref.delete();
+                        if (STATE.matchmakingListener) STATE.matchmakingListener();
+                        STATE.matchId = matchRef.id;
+                        startMatch(matchRef, false);
+                    }
+                });
+            // Timeout 15s => bot
+            setTimeout(async () => {
+                if (!STATE.matchInProgress && STATE.matchmakingListener) {
+                    STATE.matchmakingListener();
+                    await mmRef.delete();
+                    const botName = 'Bot_'+Math.floor(Math.random()*1000);
+                    const matchRef = db.collection('matches').doc();
+                    await matchRef.set({
+                        players: [
+                            { uid: STATE.user.uid, pseudo: STATE.user.pseudo, avatar: STATE.user.avatar },
+                            { uid: 'bot', pseudo: botName, avatar: null }
+                        ],
+                        status: 'starting',
+                        scores: [0, 0],
+                        currentQuestion: 0,
+                        questions: [],
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    STATE.matchId = matchRef.id;
+                    startMatch(matchRef, true);
                 }
-            }, 1000);
+            }, 15000);
         }
 
-        function startQuizMatch() {
-            APP_STATE.matchInProgress = true;
-            // Mélanger et sélectionner 10 questions (20 pour grande finale)
-            const shuffled = [...DEMO_QUESTIONS].sort(() => Math.random() - 0.5);
-            APP_STATE.matchQuestions = shuffled.slice(0, 10); // 10 questions standard
-            APP_STATE.currentQuestionIndex = 0;
+        async function startMatch(matchRef, isBot) {
+            STATE.matchInProgress = true;
+            STATE.currentMatchData = { ref: matchRef, isBot };
+            const allQuestions = await loadQuestions();
+            const selected = allQuestions.sort(()=>Math.random()-0.5).slice(0,10);
+            await matchRef.update({ questions: selected, status: 'active' });
+            STATE.matchListener = matchRef.onSnapshot(snap => {
+                const data = snap.data();
+                if (!data) return;
+                STATE.opponentScore = data.scores[1];
+                document.getElementById('score-p2').textContent = data.scores[1];
+                if (data.status === 'finished') {
+                    endMatchUI(data);
+                }
+            });
+            STATE.chatListener = matchRef.collection('messages').orderBy('timestamp').onSnapshot(snap => {
+                snap.docChanges().forEach(change => {
+                    if (change.type === 'added') displayChatMessage(change.doc.data());
+                });
+            });
+            navigateTo('match');
+            document.getElementById('match-player1').textContent = STATE.user.pseudo;
+            document.getElementById('match-avatar1').innerHTML = STATE.user.avatar ? `<img src="${STATE.user.avatar}">` : '👤';
+            document.getElementById('match-player2').textContent = isBot ? 'Bot' : 'Adversaire';
+            document.getElementById('match-avatar2').innerHTML = isBot ? '🤖' : (matchRef.players[1].avatar ? `<img src="${matchRef.players[1].avatar}">` : '👤');
             loadQuestion(0);
         }
 
         function loadQuestion(index) {
-            if (index >= APP_STATE.matchQuestions.length) {
+            if (!STATE.currentMatchData || index >= STATE.currentMatchData.ref.data().questions.length) {
                 endMatch();
                 return;
             }
-            APP_STATE.currentQuestionIndex = index;
-            APP_STATE.questionAnswered = false;
-            const q = APP_STATE.matchQuestions[index];
-            document.getElementById('question-counter').textContent = `Question ${index + 1}/${APP_STATE.matchQuestions.length}`;
+            STATE.currentQuestionIndex = index;
+            const q = STATE.currentMatchData.ref.data().questions[index];
             document.getElementById('question-text').textContent = q.question;
+            document.getElementById('question-counter').textContent = `Question ${index+1}/10`;
+            document.getElementById('choices-container').innerHTML = q.options.map((opt,i) => 
+                `<button class="choice-btn" onclick="answerQuestion(${i})">${String.fromCharCode(65+i)}. ${opt}</button>`
+            ).join('');
             document.getElementById('match-timer').textContent = '15';
             document.getElementById('match-timer').classList.remove('urgent');
-            document.getElementById('match-feedback').textContent = '';
-
-            const choicesContainer = document.getElementById('choices-container');
-            const labels = ['A', 'B', 'C', 'D'];
-            choicesContainer.innerHTML = q.options.map((opt, i) =>
-                `<button class="choice-btn" data-index="${i}" onclick="answerQuestion(${i}, this)">${labels[i]}. ${opt}</button>`
-            ).join('');
-
-            // Démarrer le timer
-            APP_STATE.matchTimer = 15;
-            if (APP_STATE.matchTimerInterval) clearInterval(APP_STATE.matchTimerInterval);
-            APP_STATE.matchTimerInterval = setInterval(() => {
-                APP_STATE.matchTimer--;
-                document.getElementById('match-timer').textContent = APP_STATE.matchTimer;
-                if (APP_STATE.matchTimer <= 5) {
-                    document.getElementById('match-timer').classList.add('urgent');
-                }
-                if (APP_STATE.matchTimer <= 0) {
-                    clearInterval(APP_STATE.matchTimerInterval);
-                    if (!APP_STATE.questionAnswered) {
-                        handleTimeout();
-                    }
+            STATE.timer = 15;
+            clearInterval(STATE.timerInterval);
+            STATE.timerInterval = setInterval(() => {
+                STATE.timer--;
+                document.getElementById('match-timer').textContent = STATE.timer;
+                if (STATE.timer <=5) document.getElementById('match-timer').classList.add('urgent');
+                if (STATE.timer <=0) {
+                    clearInterval(STATE.timerInterval);
+                    answerQuestion(-1);
                 }
             }, 1000);
-
-            // Simuler la réponse de l'adversaire (Firestore onSnapshot en production)
-            simulateOpponentResponse(index);
+            STATE.opponentAnswered = false;
         }
 
-        function answerQuestion(choiceIndex, btnElement) {
-            if (APP_STATE.questionAnswered) return;
-            APP_STATE.questionAnswered = true;
-            clearInterval(APP_STATE.matchTimerInterval);
-
-            const q = APP_STATE.matchQuestions[APP_STATE.currentQuestionIndex];
+        async function answerQuestion(choiceIndex) {
+            if (!STATE.matchInProgress || STATE.opponentAnswered) return;
+            STATE.opponentAnswered = true;
+            clearInterval(STATE.timerInterval);
+            const matchRef = STATE.currentMatchData.ref;
+            const data = (await matchRef.get()).data();
+            const q = data.questions[STATE.currentQuestionIndex];
             const isCorrect = choiceIndex === q.correct;
-            const responseTime = 15 - APP_STATE.matchTimer;
-            let pointsEarned = 0;
-
-            // Calcul des points selon la vitesse
-            if (isCorrect) {
-                if (responseTime <= 3) pointsEarned = 10; // LIGHTNING
-                else if (responseTime <= 6) pointsEarned = 8; // FAST
-                else if (responseTime <= 9) pointsEarned = 6; // GOOD
-                else if (responseTime <= 12) pointsEarned = 4; // SLOW
-                else pointsEarned = 2; // JUST IN TIME
-            } else {
-                pointsEarned = -2; // Mauvaise réponse
+            const time = 15 - STATE.timer;
+            let points = 0;
+            if (choiceIndex === -1) points = 0;
+            else if (isCorrect) {
+                if (time <= 3) points = 10;
+                else if (time <= 6) points = 8;
+                else if (time <= 9) points = 6;
+                else if (time <= 12) points = 4;
+                else points = 2;
+            } else points = -2;
+            const newScore = Math.max(0, data.scores[0] + points);
+            await matchRef.update({ [`scores.0`]: newScore });
+            const btns = document.querySelectorAll('.choice-btn');
+            btns.forEach(b => b.disabled = true);
+            if (isCorrect && choiceIndex >=0) btns[choiceIndex].classList.add('correct');
+            else if (choiceIndex >=0) {
+                btns[choiceIndex].classList.add('wrong');
+                btns[q.correct].classList.add('correct');
             }
-
-            APP_STATE.playerScore += pointsEarned;
-            if (APP_STATE.playerScore < 0) APP_STATE.playerScore = 0;
-            document.getElementById('score-p1').textContent = APP_STATE.playerScore;
-
-            // Feedback visuel
-            const allBtns = document.querySelectorAll('#choices-container .choice-btn');
-            allBtns.forEach(b => b.disabled = true);
-            if (isCorrect) {
-                btnElement.classList.add('correct');
-                document.getElementById('match-feedback').innerHTML =
-                    `<span style="color:var(--green);">✅ BONNE RÉPONSE ! +${pointsEarned} pts (${getSpeedLabel(responseTime)})</span>`;
-            } else {
-                btnElement.classList.add('wrong');
-                // Afficher la bonne réponse
-                allBtns[q.correct].classList.add('correct');
-                document.getElementById('match-feedback').innerHTML =
-                    `<span style="color:var(--red);">❌ MAUVAISE RÉPONSE ! ${pointsEarned} pts</span>`;
-            }
-
-            // Passer à la question suivante après délai
             setTimeout(() => {
-                loadQuestion(APP_STATE.currentQuestionIndex + 1);
+                if (STATE.currentQuestionIndex < 9) loadQuestion(STATE.currentQuestionIndex+1);
+                else endMatch();
             }, 1500);
         }
 
-        function handleTimeout() {
-            APP_STATE.questionAnswered = true;
-            const allBtns = document.querySelectorAll('#choices-container .choice-btn');
-            allBtns.forEach(b => b.disabled = true);
-            const q = APP_STATE.matchQuestions[APP_STATE.currentQuestionIndex];
-            // Afficher la bonne réponse
-            allBtns[q.correct].classList.add('correct');
-            document.getElementById('match-feedback').innerHTML =
-                '<span style="color:var(--orange);">⏱️ TEMPS ÉCOULÉ ! 0 pt</span>';
-            APP_STATE.opponentScore += 4; // Bonus à l'adversaire
-            document.getElementById('score-p2').textContent = APP_STATE.opponentScore;
-            setTimeout(() => {
-                loadQuestion(APP_STATE.currentQuestionIndex + 1);
-            }, 1200);
-        }
-
-        function simulateOpponentResponse(questionIndex) {
-            // Simuler une réponse adverse avec délai aléatoire
-            const delay = Math.random() * 10000 + 2000; // 2-12 secondes
-            setTimeout(() => {
-                if (!APP_STATE.matchInProgress) return;
-                if (APP_STATE.currentQuestionIndex !== questionIndex) return; // Question déjà passée
-                const q = APP_STATE.matchQuestions[questionIndex];
-                const oppCorrect = Math.random() > 0.3; // 70% de chance de bonne réponse
-                const oppTime = Math.random() * 12;
-                let oppPoints = 0;
-                if (oppCorrect) {
-                    if (oppTime <= 3) oppPoints = 10;
-                    else if (oppTime <= 6) oppPoints = 8;
-                    else if (oppTime <= 9) oppPoints = 6;
-                    else if (oppTime <= 12) oppPoints = 4;
-                    else oppPoints = 2;
-                } else {
-                    oppPoints = -2;
-                }
-                APP_STATE.opponentScore += oppPoints;
-                if (APP_STATE.opponentScore < 0) APP_STATE.opponentScore = 0;
-                document.getElementById('score-p2').textContent = APP_STATE.opponentScore;
-                console.log(`🤖 Adversaire a répondu: ${oppCorrect ? 'Correct' : 'Faux'} +${oppPoints}pts`);
-            }, delay);
-        }
-
-        function getSpeedLabel(seconds) {
-            if (seconds <= 3) return '⚡ LIGHTNING';
-            if (seconds <= 6) return '🔥 FAST';
-            if (seconds <= 9) return '✅ GOOD';
-            if (seconds <= 12) return '🐢 SLOW';
-            return '😅 JUST IN TIME';
-        }
-
         function endMatch() {
-            APP_STATE.matchInProgress = false;
-            clearInterval(APP_STATE.matchTimerInterval);
-            document.getElementById('match-timer').textContent = 'FIN';
-            document.getElementById('match-timer').classList.remove('urgent');
-            const p1Score = APP_STATE.playerScore;
-            const p2Score = APP_STATE.opponentScore;
-            const playerWon = p1Score > p2Score;
-            document.getElementById('match-feedback').innerHTML = playerWon ?
-                '<span style="color:var(--gold);font-size:1.5rem;">🏆 VOUS AVEZ GAGNÉ !</span>' :
-                '<span style="color:var(--red);font-size:1.3rem;">😞 Défaite...</span>';
-
-            // Lancer les confettis si victoire
-            if (playerWon) spawnConfetti();
-
-            document.getElementById('btn-ready-match').style.display = 'inline-block';
-            document.getElementById('btn-ready-match').disabled = false;
-            document.getElementById('btn-ready-match').textContent = '⚡ REJOUER';
-            document.getElementById('btn-leave-match').style.display = 'none';
-            document.getElementById('choices-container').innerHTML =
-                '<p style="color:var(--text-muted);">Match terminé ! Score final enregistré.</p>';
-
-            // Mettre à jour le bracket si applicable
-            console.log(`📊 Score final: Joueur ${p1Score} - ${p2Score} Adversaire`);
-            console.log('✅ Résultat envoyé à Firestore (batch write simulé)');
+            STATE.matchInProgress = false;
+            if (STATE.matchListener) STATE.matchListener();
+            if (STATE.chatListener) STATE.chatListener();
+            STATE.currentMatchData.ref.update({ status: 'finished' }).catch(()=>{});
+            document.getElementById('match-feedback').innerHTML = 'Match terminé !';
         }
 
         function leaveMatch() {
-            detachAllListeners();
-            APP_STATE.matchInProgress = false;
-            clearInterval(APP_STATE.matchTimerInterval);
-            document.getElementById('btn-ready-match').style.display = 'inline-block';
-            document.getElementById('btn-ready-match').disabled = false;
-            document.getElementById('btn-ready-match').textContent = '⚡ READY';
-            document.getElementById('btn-leave-match').style.display = 'none';
-            document.getElementById('match-feedback').textContent = 'Match abandonné';
-            document.getElementById('choices-container').innerHTML =
-                '<button class="choice-btn" disabled>A. ---</button><button class="choice-btn" disabled>B. ---</button><button class="choice-btn" disabled>C. ---</button><button class="choice-btn" disabled>D. ---</button>';
-            navigateTo('tournament');
-            showToast('Match quitté — forfait après 10s', 'info');
+            STATE.matchInProgress = false;
+            clearInterval(STATE.timerInterval);
+            if (STATE.matchListener) STATE.matchListener();
+            if (STATE.chatListener) STATE.chatListener();
+            if (STATE.matchmakingListener) STATE.matchmakingListener();
+            navigateTo('home');
         }
 
-        // --- Leaderboard ---
-        function renderFullLeaderboard(filter) {
-            const demoPlayers = [
-                { pseudo: 'JeanP_QC', score: 12450, matches: 87, rank: 'Diamond' },
-                { pseudo: 'Marie_Biz', score: 10820, matches: 76, rank: 'Gold' },
-                { pseudo: 'David_Eng', score: 9650, matches: 65, rank: 'Gold' },
-                { pseudo: 'Sophie_H', score: 8900, matches: 58, rank: 'Silver' },
-                { pseudo: 'Marc_CEO', score: 7750, matches: 52, rank: 'Silver' },
-                { pseudo: 'Laura_K', score: 7200, matches: 49, rank: 'Silver' },
-                { pseudo: 'Pierre_T', score: 6800, matches: 44, rank: 'Bronze' },
-                { pseudo: 'Nadia_M', score: 6100, matches: 40, rank: 'Bronze' },
-                { pseudo: 'Carlos_R', score: 5500, matches: 36, rank: 'Bronze' },
-                { pseudo: 'Esther_L', score: 4900, matches: 31, rank: 'Bronze' },
-            ];
-            const tbody = document.getElementById('leaderboard-body');
-            tbody.innerHTML = demoPlayers.map((p, i) => {
-                const rankBadge = i === 0 ? 'rank-1' : (i === 1 ? 'rank-2' : (i === 2 ? 'rank-3' : ''));
-                const rankIcon = i === 0 ? '🥇' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : (i + 1)));
-                const badgeClass = p.rank === 'Diamond' ? 'badge-gold' : (p.rank === 'Gold' ? 'badge-blue' : (
-                    p.rank === 'Silver' ? 'badge-red' : 'badge-green'));
-                return `<tr class="${i < 3 ? 'podium-row' : ''}">
-              <td class="rank-col"><span class="rank-badge ${rankBadge}">${rankIcon}</span></td>
-              <td>🇭🇹 ${p.pseudo}</td>
-              <td><strong>${p.score.toLocaleString()}</strong></td>
-              <td>${p.matches}</td>
-              <td><span class="badge ${badgeClass}">${p.rank}</span></td>
-            </tr>`;
-            }).join('');
-            document.getElementById('load-more-lb').style.display = 'block';
+        function sendEmoji(emoji) {
+            if (!STATE.matchId) return;
+            db.collection('matches').doc(STATE.matchId).collection('messages').add({
+                uid: STATE.user.uid,
+                pseudo: STATE.user.pseudo,
+                emoji: emoji,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
         }
 
-        // --- Filtres leaderboard ---
-        document.addEventListener('click', function(e) {
+        function displayChatMessage(msg) {
+            const container = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `chat-msg ${msg.uid === STATE.user.uid ? 'mine' : ''}`;
+            div.textContent = `${msg.pseudo}: ${msg.emoji}`;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // ==================== PAGES RENDER ====================
+        function updateUI() {
+            if (STATE.user) {
+                document.getElementById('profile-pseudo').textContent = STATE.user.pseudo;
+                document.getElementById('profile-rank').textContent = STATE.user.rank;
+                document.getElementById('profile-badges').innerHTML = (STATE.user.badges || []).map(b => `<span class="badge badge-gold">${b}</span>`).join(' ');
+                const av = document.getElementById('profile-avatar-preview');
+                if (STATE.user.avatar) av.innerHTML = `<img src="${STATE.user.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+                else av.innerHTML = '👤';
+            }
+        }
+
+        function renderHomePage() {
+            db.collection('users').get().then(snap => document.getElementById('stat-players').textContent = snap.size);
+            db.collection('tournaments').get().then(snap => document.getElementById('stat-tournaments').textContent = snap.size);
+            loadTopPlayers();
+            updateCountdown();
+        }
+
+        function loadTopPlayers() {
+            db.collection('users').orderBy('stats.matchesWon', 'desc').limit(5).get().then(snap => {
+                const tbody = document.getElementById('top5-preview');
+                tbody.innerHTML = snap.docs.map((doc,i) => {
+                    const u = doc.data();
+                    const badge = i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'';
+                    const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
+                    return `<tr class="${i<3?'podium-row':''}"><td class="rank-col"><span class="rank-badge ${badge}">${medal}</span></td><td>${u.pseudo}</td><td>${u.stats.matchesWon||0}</td><td><span class="badge badge-gold">${u.rank}</span></td></tr>`;
+                }).join('');
+            });
+        }
+
+        function updateCountdown() {
+            const now = new Date(), target = new Date(now);
+            target.setHours(target.getHours()+23); target.setMinutes(45); target.setSeconds(0);
+            const diff = target - now, h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+            document.getElementById('countdown-display').textContent = `${h}h ${m}m ${s}s`;
+        }
+
+        function renderDashboard() {
+            if (!STATE.user) return;
+            document.getElementById('dash-username').textContent = STATE.user.pseudo;
+            document.getElementById('dash-stats-matches').textContent = STATE.user.stats.matchesPlayed||0;
+            document.getElementById('dash-stats-wins').textContent = STATE.user.stats.matchesWon||0;
+            document.getElementById('dash-stats-avg').textContent = STATE.user.stats.avgScore||0;
+            document.getElementById('dash-stats-speed').textContent = (STATE.user.stats.avgResponseTime||0)+'s';
+        }
+
+        function renderProfile() {
+            updateUI();
+            document.getElementById('profile-history').innerHTML = '<p>Aucun historique détaillé.</p>';
+        }
+
+        function renderTournamentPage() {
+            const bracket = document.getElementById('bracket-container');
+            bracket.innerHTML = `<div class="bracket-tree">
+                <div class="bracket-round"><div class="bracket-round-label">Huitièmes</div>…</div>
+                <!-- Bracket statique ou dynamique selon Firestore -->
+            </div>`;
+        }
+
+        function renderMatchPage() {
+            if (!STATE.matchInProgress) {
+                document.getElementById('match-player1').textContent = STATE.user ? STATE.user.pseudo : 'Vous';
+                document.getElementById('match-player2').textContent = '???';
+                document.getElementById('btn-ready-match').style.display = 'inline-block';
+                document.getElementById('btn-ready-match').onclick = findMatch;
+            }
+        }
+
+        function renderLeaderboardPage(filter='all') {
+            let query = db.collection('users').orderBy('stats.matchesWon', 'desc');
+            if (filter === 'week') {
+                const weekAgo = new Date(Date.now()-7*24*60*60*1000);
+                query = query.where('lastMatchDate', '>=', weekAgo);
+            } else if (filter === 'month') {
+                const monthAgo = new Date(Date.now()-30*24*60*60*1000);
+                query = query.where('lastMatchDate', '>=', monthAgo);
+            }
+            query.limit(20).get().then(snap => {
+                const tbody = document.getElementById('leaderboard-body');
+                tbody.innerHTML = snap.docs.map((doc,i) => {
+                    const u = doc.data();
+                    const badge = i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'';
+                    const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
+                    return `<tr class="${i<3?'podium-row':''}"><td class="rank-col"><span class="rank-badge ${badge}">${medal}</span></td><td>${u.pseudo}</td><td>${u.stats.matchesWon||0}</td><td>${u.stats.matchesPlayed||0}</td><td><span class="badge badge-gold">${u.rank}</span></td></tr>`;
+                }).join('');
+            });
+        }
+
+        document.addEventListener('click', e => {
             if (e.target.classList.contains('filter-btn')) {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 e.target.classList.add('active');
-                renderFullLeaderboard(e.target.dataset.filter);
+                renderLeaderboardPage(e.target.dataset.filter);
             }
         });
 
-        // --- Inscription tournoi ---
-        function registerTournament() {
-            if (!APP_STATE.isLoggedIn) {
-                showToast('🔐 Connecte-toi d\'abord pour t\'inscrire !', 'error');
-                navigateTo('auth');
-                return;
-            }
-            showToast('📋 Inscription au tournoi confirmée ! (simulation)', 'success');
-            console.log('✅ Joueur inscrit au tournoi — Firestore batch write simulé');
-            // Ajouter le joueur au bracket simulé
-            if (APP_STATE.bracketData && APP_STATE.bracketData.rounds[0].matches.length > 0) {
-                const randomMatch = APP_STATE.bracketData.rounds[0].matches[
-                    Math.floor(Math.random() * APP_STATE.bracketData.rounds[0].matches.length)
-                ];
-                randomMatch.player1 = {
-                    pseudo: APP_STATE.currentUser.pseudo,
-                    avatar: APP_STATE.currentUser.avatar || '👤',
-                    seed: Math.floor(Math.random() * 32) + 1,
-                    score: 0,
-                };
-                randomMatch.status = 'live';
-                renderBracket();
-            }
-        }
+        window.registerTournament = function() {
+            if (!STATE.isLoggedIn) return showToast('Connecte-toi', 'error');
+            showToast('Inscription au tournoi enregistrée (simulation)', 'success');
+        };
 
-        // --- Admin functions ---
-        function createTournament() {
-            const name = document.getElementById('admin-tournament-name').value || 'Nouveau Tournoi';
-            showToast(`🏆 Tournoi "${name}" créé ! (simulation)`, 'success');
-            console.log('✅ Tournoi créé dans Firestore (simulé)');
-            generateBracketData();
-            renderBracket();
-        }
+        window.createTournament = function() {
+            const name = document.getElementById('admin-tournament-name').value;
+            if (!name) return showToast('Nom requis', 'error');
+            db.collection('tournaments').add({ name, maxPlayers: 32, status:'inscription', createdAt: firebase.firestore.FieldValue.serverTimestamp() })
+                .then(() => showToast('Tournoi créé', 'success'));
+        };
 
-        function addQuestion() {
+        window.addQuestion = function() {
             const q = document.getElementById('admin-question').value;
-            if (!q) { showToast('Veuillez entrer une question', 'error'); return; }
-            showToast('✅ Question ajoutée à la banque ! (simulation)', 'success');
-            console.log('✅ Question ajoutée à Firestore (batch write simulé)');
-            document.getElementById('admin-question').value = '';
-        }
+            if (!q) return showToast('Question requise', 'error');
+            db.collection('questions').add({
+                question: q,
+                options: [document.getElementById('admin-optA').value, document.getElementById('admin-optB').value, document.getElementById('admin-optC').value, document.getElementById('admin-optD').value],
+                correct: parseInt(document.getElementById('admin-correct').value),
+                category: document.getElementById('admin-category').value,
+                active: true
+            }).then(() => { showToast('Question ajoutée', 'success'); localStorage.removeItem('questions_cache'); });
+        };
 
-        // --- Dashboard ---
-        function updateDashboard() {
-            if (APP_STATE.currentUser) {
-                document.getElementById('dash-username').textContent = APP_STATE.currentUser.pseudo;
-            }
-        }
-
-        // --- Toasts ---
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `feedback-toast ${type}`;
-            toast.textContent = message;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transition = 'opacity 0.3s';
-                setTimeout(() => toast.remove(), 300);
-            }, 2000);
-        }
-
-        // --- Confettis ---
-        function spawnConfetti() {
-            const colors = ['#FFD700', '#D21034', '#003F8A', '#00c853', '#ff9800', '#fff'];
-            for (let i = 0; i < 60; i++) {
-                const piece = document.createElement('div');
-                piece.className = 'confetti-piece';
-                piece.style.left = Math.random() * 100 + '%';
-                piece.style.top = -(Math.random() * 40) + 'px';
-                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                piece.style.width = (Math.random() * 12 + 6) + 'px';
-                piece.style.height = (Math.random() * 12 + 6) + 'px';
-                piece.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                piece.style.animationDelay = Math.random() * 1 + 's';
-                document.body.appendChild(piece);
-                setTimeout(() => piece.remove(), 4000);
-            }
-        }
-
-        // --- Particules d'arrière-plan ---
         function initParticles() {
             const canvas = document.getElementById('particles-canvas');
             const ctx = canvas.getContext('2d');
@@ -1906,118 +1604,39 @@
             const particles = [];
             for (let i = 0; i < 40; i++) {
                 particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    r: Math.random() * 2 + 0.5,
-                    dx: (Math.random() - 0.5) * 0.3,
-                    dy: (Math.random() - 0.5) * 0.3,
-                    alpha: Math.random() * 0.5 + 0.1,
+                    x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+                    r: Math.random()*2+0.5, dx: (Math.random()-0.5)*0.3, dy: (Math.random()-0.5)*0.3,
+                    alpha: Math.random()*0.5+0.1
                 });
             }
-
             function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.clearRect(0,0,canvas.width,canvas.height);
                 particles.forEach(p => {
-                    p.x += p.dx;
-                    p.y += p.dy;
-                    if (p.x < 0) p.x = canvas.width;
-                    if (p.x > canvas.width) p.x = 0;
-                    if (p.y < 0) p.y = canvas.height;
-                    if (p.y > canvas.height) p.y = 0;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255,215,0,${p.alpha})`;
-                    ctx.fill();
+                    p.x += p.dx; p.y += p.dy;
+                    if (p.x<0) p.x=canvas.width; if (p.x>canvas.width) p.x=0;
+                    if (p.y<0) p.y=canvas.height; if (p.y>canvas.height) p.y=0;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+                    ctx.fillStyle = `rgba(255,215,0,${p.alpha})`; ctx.fill();
                 });
                 requestAnimationFrame(animate);
             }
             animate();
-            window.addEventListener('resize', () => {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            });
+            window.addEventListener('resize', () => { canvas.width=window.innerWidth; canvas.height=window.innerHeight; });
         }
 
-        // --- Countdown tournoi ---
-        function updateCountdown() {
-            const display = document.getElementById('countdown-display');
-            if (!display) return;
-            // Simuler un countdown vers le prochain tournoi
-            const now = new Date();
-            const target = new Date(now);
-            target.setHours(target.getHours() + 23);
-            target.setMinutes(45);
-            const diff = target - now;
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            display.textContent = `${hours}h ${minutes}m ${seconds}s`;
-        }
-
-        // --- Gestion de la déconnexion/forfait ---
-        window.addEventListener('beforeunload', () => {
-            detachAllListeners();
-            console.log('🧹 Tous les listeners Firestore détachés — joueur quitte la page');
-        });
-
-        // --- Initialisation ---
         function initApp() {
             initParticles();
-            generateBracketData();
-            renderBracket();
-            renderFullLeaderboard('all');
+            navigateTo('home');
             updateCountdown();
             setInterval(updateCountdown, 1000);
-
-            // Observer l'authentification Firebase
-            if (firebaseInitialized && auth) {
-                auth.onAuthStateChanged(user => {
-                    if (user) {
-                        handleAuthSuccess(user);
-                    } else {
-                        APP_STATE.currentUser = null;
-                        APP_STATE.isLoggedIn = false;
-                        updateUIAfterAuth();
-                    }
-                });
-            }
-
-            // Navigation initiale
-            navigateTo('home');
-
-            console.log('🏆 ArenaQuizHaiti initialisé — "Compete · Learn · Rise"');
-            console.log('📱 PWA prête — ajoutez à l\'écran d\'accueil pour une expérience mobile optimale');
-            console.log('🔥 Stack: Firebase Auth + Firestore (onSnapshot) + ImgBB API + Cloudflare Pages');
-            console.log('⚡ Optimisations: Batch writes 500ms, listeners actifs seulement, cache localStorage');
         }
 
-        // --- Démarrer l'application ---
-        document.addEventListener('DOMContentLoaded', initApp);
-
-        // --- Service Worker pour PWA ---
-        if ('serviceWorker' in navigator) {
-            // Enregistrer un SW minimal pour le mode hors-ligne
-            const swCode = `
-        const CACHE_NAME = 'arenaquizhaiti-v1';
-        self.addEventListener('install', e => { self.skipWaiting(); });
-        self.addEventListener('activate', e => { e.waitUntil(clients.claim()); });
-        self.addEventListener('fetch', e => {
-          e.respondWith(
-            fetch(e.request).catch(() => caches.match(e.request))
-          );
+        window.addEventListener('load', initApp);
+        window.addEventListener('beforeunload', () => {
+            if (STATE.matchListener) STATE.matchListener();
+            if (STATE.chatListener) STATE.chatListener();
+            if (STATE.matchmakingListener) STATE.matchmakingListener();
         });
-      `;
-            const blob = new Blob([swCode], { type: 'application/javascript' });
-            const swUrl = URL.createObjectURL(blob);
-            navigator.serviceWorker.register(swUrl).catch(() => {
-                // Mode démo sans SW
-            });
-        }
-
-        console.log('✅ ArenaQuizHaiti — Prêt pour le déploiement sur Cloudflare Pages !');
-        console.log('📋 N\'oubliez pas de configurer vos credentials Firebase dans firebaseConfig');
-        console.log('🖼️ ImgBB API key à configurer pour les uploads d\'avatar réels');
-        console.log('🔒 Firestore Security Rules à déployer pour la production');
     </script>
 </body>
-</html>
+    </html>
