@@ -945,19 +945,47 @@
             </div>
         </section>
 
+    
         <!-- ========== PAGE AUTH ========== -->
-        <section class="page" id="page-auth">
-            <div class="card card-gold" style="max-width:420px;margin:40px auto;text-align:center;">
-                <div class="card-header">🔐 Connexion</div>
-                <p style="margin-bottom:16px;color:var(--text-muted);">Rejoins l'arène et prouve ta valeur !</p>
-                <button class="btn btn-primary" style="width:100%;margin-bottom:8px;" onclick="loginWithGoogle()">🟡 Connexion avec Google</button>
-                <div style="color:var(--text-muted);margin:12px 0;">— ou —</div>
-                <input type="email" class="input-field" placeholder="Email" id="auth-email">
-                <input type="password" class="input-field" placeholder="Mot de passe" id="auth-password">
-                <button class="btn btn-outline" style="width:100%;" onclick="loginWithEmail()">Se connecter</button>
-                <p style="margin-top:10px;font-size:0.75rem;color:var(--text-muted);">Pas de compte ? L'inscription se fait via la connexion Google ou Email.</p>
-            </div>
-        </section>
+<section class="page" id="page-auth">
+    <div class="card card-gold" style="max-width:420px;margin:40px auto;text-align:center;">
+        <div class="card-header">🔐 Connexion</div>
+        <p style="margin-bottom:16px;color:var(--text-muted);">Rejoins l'arène et prouve ta valeur !</p>
+        
+        <!-- Bouton Google -->
+        <button class="btn btn-primary" style="width:100%;margin-bottom:8px;" onclick="loginWithGoogle()">
+            🟡 Connexion avec Google
+        </button>
+        
+        <div style="color:var(--text-muted);margin:12px 0;">— ou —</div>
+        
+        <!-- Formulaire Email -->
+        <input type="email" class="input-field" placeholder="Email" id="auth-email">
+        <input type="password" class="input-field" placeholder="Mot de passe" id="auth-password">
+        
+        <!-- Bouton Connexion Email -->
+        <button class="btn btn-outline" style="width:100%;margin-bottom:12px;" onclick="loginWithEmail()">
+            Se connecter
+        </button>
+        
+        <!-- Séparateur -->
+        <div style="border-top:1px solid var(--border);margin:16px 0;"></div>
+        
+        <!-- Section Inscription -->
+        <p style="font-family:var(--font-label);font-size:0.9rem;color:var(--text);margin-bottom:8px;">
+            Pas encore de compte ?
+        </p>
+        <button class="btn btn-primary" style="width:100%;" onclick="registerWithEmail()">
+            ✨ Créer un compte
+        </button>
+        
+        <!-- Lien admin discret -->
+        <p style="margin-top:12px;font-size:0.65rem;color:var(--text-muted);cursor:pointer;opacity:0.5;" 
+           onclick="navigateTo('admin')">
+            Accès Admin
+        </p>
+    </div>
+</section>
 
         <!-- ========== PAGE DASHBOARD ========== -->
         <section class="page" id="page-dashboard">
@@ -1243,6 +1271,39 @@
             const pass = document.getElementById('auth-password').value;
             if (!email || !pass) return showToast('Veuillez remplir tous les champs', 'error');
             auth.signInWithEmailAndPassword(email, pass).catch(err => showToast('Erreur: '+err.message, 'error'));
+        
+        }
+        function registerWithEmail() {
+    const email = document.getElementById('auth-email').value.trim();
+    const pass = document.getElementById('auth-password').value;
+    
+    if (!email || !pass) {
+        showToast('Veuillez remplir email et mot de passe', 'error');
+        return;
+    }
+    
+    if (pass.length < 6) {
+        showToast('Le mot de passe doit faire au moins 6 caractères', 'error');
+        return;
+    }
+    
+    auth.createUserWithEmailAndPassword(email, pass)
+        .then((userCredential) => {
+            showToast('✅ Compte créé avec succès ! Bienvenue dans l\'Arène !', 'success');
+            // Le profil sera créé automatiquement par onAuthStateChanged
+            navigateTo('dashboard');
+        })
+        .catch((error) => {
+            let message = 'Erreur lors de l\'inscription';
+            if (error.code === 'auth/email-already-in-use') {
+                message = 'Cet email est déjà utilisé. Connecte-toi plutôt.';
+            } else if (error.code === 'auth/invalid-email') {
+                message = 'Format d\'email invalide.';
+            } else if (error.code === 'auth/weak-password') {
+                message = 'Mot de passe trop faible (min 6 caractères).';
+            }
+            showToast(message, 'error');
+        });
         }
 
         function logout() {
