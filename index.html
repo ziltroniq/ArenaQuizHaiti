@@ -1046,7 +1046,7 @@
                 </div>
                 <div id="match-feedback" style="min-height:30px;font-weight:600;letter-spacing:1px;"></div>
                 <button class="btn btn-primary" id="btn-ready-match" onclick="findMatch()">⚡ Trouver un match</button>
-                <button class="btn btn-outline btn-sm" id="btn-leave-match" style="display:none;" onclick="leaveMatch()">Quitter le match</button>
+                <button class="btn btn-outline btn-sm" id="btn-leave-match" style="display:none;" onclick="leaveMatch(); navigateTo('home')">Quitter le match</button>
 
                 <!-- Chat emoji -->
                 <div class="chat-container" id="chat-messages"></div>
@@ -1207,7 +1207,7 @@
                 if (!doc.exists) {
                     const newUser = {
                         uid: user.uid,
-                        pseudo: user.displayName || user.email.split('@')[0],
+                        pseudo: user.displayName || (user.email ? user.email.split('@')[0] : 'Gladiateur'),
                         avatar: user.photoURL || null,
                         stats: { tournamentsWon:0, matchesWon:0, avgScore:0, avgResponseTime:0, matchesPlayed:0 },
                         badges: [],
@@ -1424,8 +1424,10 @@
                 else if (time <= 12) points = 4;
                 else points = 2;
             } else points = -2;
-            const newScore = Math.max(0, data.scores[0] + points);
-            await matchRef.update({ [`scores.0`]: newScore });
+            // Correction : mise à jour du tableau de scores
+            const newScores = [...data.scores];
+            newScores[0] = Math.max(0, data.scores[0] + points);
+            await matchRef.update({ scores: newScores });
             const btns = document.querySelectorAll('.choice-btn');
             btns.forEach(b => b.disabled = true);
             if (isCorrect && choiceIndex >=0) btns[choiceIndex].classList.add('correct');
@@ -1447,13 +1449,13 @@
             document.getElementById('match-feedback').innerHTML = 'Match terminé !';
         }
 
+        // Correction : leaveMatch n'appelle plus navigateTo
         function leaveMatch() {
             STATE.matchInProgress = false;
             clearInterval(STATE.timerInterval);
             if (STATE.matchListener) STATE.matchListener();
             if (STATE.chatListener) STATE.chatListener();
             if (STATE.matchmakingListener) STATE.matchmakingListener();
-            navigateTo('home');
         }
 
         function sendEmoji(emoji) {
@@ -1530,8 +1532,11 @@
         function renderTournamentPage() {
             const bracket = document.getElementById('bracket-container');
             bracket.innerHTML = `<div class="bracket-tree">
-                <div class="bracket-round"><div class="bracket-round-label">Huitièmes</div>…</div>
-                <!-- Bracket statique ou dynamique selon Firestore -->
+                <div class="bracket-round"><div class="bracket-round-label">Huitièmes</div>
+                ${Array(8).fill(0).map((_,i) => `<div class="bracket-match"><div class="player-slot"><span class="slot-avatar">👤</span><span>Joueur ${i*2+1}</span></div><div class="player-slot"><span class="slot-avatar">👤</span><span>Joueur ${i*2+2}</span></div></div>`).join('')}
+                </div>
+                <div class="bracket-connector">→</div>
+                <div class="bracket-round"><div class="bracket-round-label">Quarts</div>...</div>
             </div>`;
         }
 
@@ -1541,6 +1546,7 @@
                 document.getElementById('match-player2').textContent = '???';
                 document.getElementById('btn-ready-match').style.display = 'inline-block';
                 document.getElementById('btn-ready-match').onclick = findMatch;
+                document.getElementById('btn-leave-match').style.display = 'none';
             }
         }
 
@@ -1571,6 +1577,22 @@
                 renderLeaderboardPage(e.target.dataset.filter);
             }
         });
+
+        // Fonction editPseudo ajoutée
+        window.editPseudo = function() {
+            const newPseudo = prompt("Entrez votre nouveau pseudo pour l'Arène :");
+            if (newPseudo && newPseudo.trim().length > 0) {
+                db.collection('users').doc(STATE.user.uid).update({ 
+                    pseudo: newPseudo.trim() 
+                })
+                .then(() => {
+                    STATE.user.pseudo = newPseudo.trim();
+                    updateUI();
+                    showToast('Pseudo mis à jour avec succès !', 'success');
+                })
+                .catch(err => showToast('Erreur : ' + err.message, 'error'));
+            }
+        };
 
         window.registerTournament = function() {
             if (!STATE.isLoggedIn) return showToast('Connecte-toi', 'error');
